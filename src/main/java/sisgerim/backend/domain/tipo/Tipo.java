@@ -13,7 +13,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import sisgerim.backend.domain.dtos.TipoRequestDTO;
 
 @Entity(name = "tipo")
 @Table(name = "tipo")
