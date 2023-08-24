@@ -3,7 +3,6 @@ package sisgerim.backend.domain.tipo;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sisgerim.backend.repositories.TipoRepository;
@@ -20,15 +19,8 @@ public class TipoService {
         repository.save(tipo);
         return;
     }
-    public Tipo findTipoById(UUID id) throws Exception {
-        Optional<Tipo> optional = repository.findTipoById(id);
-        if (optional.isPresent()) {
-            Tipo tipo = optional.get();
-            return tipo;
-        }
-        return null;
-    }
     public Tipo update(TipoRequestDTO data){
+        //TODO: TIRAR ESSA REPETIÇÃO DE CÓDIGO
         Optional<Tipo> optional = repository.findById(data.id());
         if (optional.isPresent()) {
             Tipo tipo = optional.get();
@@ -38,8 +30,13 @@ public class TipoService {
         }
         return null;
     }
-    public void delete(UUID id){
-        repository.deleteById(id);
-        return;
+    public boolean delete(UUID id){
+        Optional<Tipo> optional = repository.findById(id);
+        if (optional.isPresent()) {
+            Tipo tipo = optional.get();
+            repository.delete(tipo);
+            return true;
+        }
+        return false;
     }
 }

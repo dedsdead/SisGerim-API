@@ -2,6 +2,7 @@ package sisgerim.backend.controllers;
 
 import java.util.List;
 import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,40 +16,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
-import sisgerim.backend.domain.tipo.Tipo;
-import sisgerim.backend.domain.tipo.TipoRequestDTO;
-import sisgerim.backend.domain.tipo.TipoResponseDTO;
-import sisgerim.backend.domain.tipo.TipoService;
+import sisgerim.backend.domain.caracteristica.Caracteristica;
+import sisgerim.backend.domain.caracteristica.CaracteristicaRequestDTO;
+import sisgerim.backend.domain.caracteristica.CaracteristicaResponseDTO;
+import sisgerim.backend.domain.caracteristica.CaracteristicaService;
 
 @RestController
-@RequestMapping("tipo")
-public class TipoController {
+@RequestMapping("caracteristica")
+public class CaracteristicaController {
     @Autowired
-    private TipoService service;
+    CaracteristicaService service;
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
-    public List<TipoResponseDTO> getTipos(){
+    public List<CaracteristicaResponseDTO> getCaracteristicas(){
         return service.getAll();
     }
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
-    public ResponseEntity<String> saveTipo(@RequestBody @Valid TipoRequestDTO data){
+    public ResponseEntity<String> saveCaracteristica(@RequestBody @Valid CaracteristicaRequestDTO data){
         service.save(data);
         return new ResponseEntity<String>("Created", HttpStatus.CREATED);
     }
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping
-    public ResponseEntity<Tipo> updateTipo(@RequestBody @Valid TipoRequestDTO data){
-        Tipo tipo = service.update(data);
-        if (tipo != null) {
-            return ResponseEntity.ok(tipo);
+    public ResponseEntity<Caracteristica> updateCaracteristica(@RequestBody @Valid CaracteristicaRequestDTO data){
+        Caracteristica caracteristica = service.update(data);
+        if (caracteristica != null) {
+            return ResponseEntity.ok(caracteristica);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTipo(@PathVariable("id") UUID id){
+    public ResponseEntity<String> deleteCaracteristica(@PathVariable("id") UUID id){
         if (service.delete(id)) {
             return ResponseEntity.ok("Deleted");
         }

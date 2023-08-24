@@ -1,4 +1,4 @@
-package sisgerim.backend.domain.tipo;
+package sisgerim.backend.domain.caracteristica;
 
 import java.util.UUID;
 import jakarta.persistence.Entity;
@@ -12,21 +12,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "tipo")
-@Table(name = "tipo")
+@Entity
+@Table
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Tipo {
+public class Caracteristica {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String nome;
+    private int quantidade;
+    private String descricao;
 
-    public Tipo(TipoRequestDTO data) {
-        this.nome = data.nome().toUpperCase();
+    public Caracteristica(CaracteristicaRequestDTO data) {
+        this.quantidade = data.quantidade();
+        this.descricao = data.descricao().toUpperCase();
     }
-
 }
