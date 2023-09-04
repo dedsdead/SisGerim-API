@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
-import sisgerim.backend.domain.pessoa.corretor.Corretor;
 import sisgerim.backend.domain.pessoa.corretor.CorretorRequestDTO;
 import sisgerim.backend.domain.pessoa.corretor.CorretorResponseDTO;
 import sisgerim.backend.domain.pessoa.corretor.CorretorService;
@@ -36,8 +35,8 @@ public class CorretorController {
         return new ResponseEntity<String>("Created", HttpStatus.CREATED);
     }
     @PutMapping
-    public ResponseEntity<Corretor> updateCorretor(@RequestBody @Valid CorretorRequestDTO data){
-        Corretor corretor = service.update(data);
+    public ResponseEntity<CorretorResponseDTO> updateCorretor(@RequestBody @Valid CorretorRequestDTO data){
+        CorretorResponseDTO corretor = service.update(data);
         if (corretor != null) {
             return ResponseEntity.ok(corretor);
         } else {

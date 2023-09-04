@@ -16,7 +16,7 @@ public class CorretorService {
     public List<CorretorResponseDTO> getAllActive(){
         List<CorretorResponseDTO> corretores = new ArrayList<CorretorResponseDTO>();
         for(Corretor corretor : repository.findAllByExcluidoEmNull()){
-            CorretorResponseDTO corretorResponseDTO = new CorretorResponseDTO(corretor.getId(), corretor.getUsuarioId(), corretor.getIdEndereco(), corretor.getNome(), corretor.getEmail(), corretor.getTelefone(), corretor.getCpf(), corretor.getCreci(), corretor.getImobiliaria(), corretor.getRedesSociais(), corretor.getExcluidoEm());
+            CorretorResponseDTO corretorResponseDTO = new CorretorResponseDTO(corretor);
             corretores.add(corretorResponseDTO);
         }
         return corretores;
@@ -61,12 +61,12 @@ public class CorretorService {
         repository.save(corretor);
         return;
     }
-    public Corretor update(CorretorRequestDTO data){
+    public CorretorResponseDTO update(CorretorRequestDTO data){
         Optional<Corretor> optionalCorretor = repository.findById(data.id());
         if (optionalCorretor.isPresent()) {
             Corretor corretor = optionalCorretor.get();
-            if (data.idEndereco() != null) {
-                corretor.setIdEndereco(data.idEndereco());
+            if (data.endereco() != null) {
+                corretor.setEndereco(data.endereco());
             }
             corretor.setNome(data.nome().toUpperCase());
             corretor.setEmail(data.email());
@@ -85,7 +85,8 @@ public class CorretorService {
                 corretor.setRedesSociais(data.redesSociais());
             }
             repository.save(corretor);
-            return corretor;
+
+            return new CorretorResponseDTO(corretor);
         }
         return null;
     }
