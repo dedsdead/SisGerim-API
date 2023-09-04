@@ -21,22 +21,20 @@ import sisgerim.backend.domain.tipo.TipoResponseDTO;
 import sisgerim.backend.domain.tipo.TipoService;
 
 @RestController
-@RequestMapping("tipo")
+@RequestMapping("/api/tipo")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TipoController {
     @Autowired
     private TipoService service;
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<TipoResponseDTO> getTipos(){
         return service.getAll();
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public ResponseEntity<String> saveTipo(@RequestBody @Valid TipoRequestDTO data){
         service.save(data);
         return new ResponseEntity<String>("Created", HttpStatus.CREATED);
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping
     public ResponseEntity<Tipo> updateTipo(@RequestBody @Valid TipoRequestDTO data){
         Tipo tipo = service.update(data);
@@ -46,7 +44,6 @@ public class TipoController {
             return ResponseEntity.notFound().build();
         }
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTipo(@PathVariable("id") UUID id){
         if (service.delete(id)) {

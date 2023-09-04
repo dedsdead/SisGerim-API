@@ -20,7 +20,6 @@ public class CaracteristicaService {
         return;
     }
     public Caracteristica update(CaracteristicaRequestDTO data){
-        //TODO: TIRAR ESSA REPETIÇÃO DE CÓDIGO
         Optional<Caracteristica> optional = repository.findById(data.id());
         if (optional.isPresent()) {
             Caracteristica caracteristica = optional.get();

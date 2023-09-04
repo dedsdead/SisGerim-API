@@ -2,7 +2,6 @@ package sisgerim.backend.controllers;
 
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,22 +21,20 @@ import sisgerim.backend.domain.caracteristica.CaracteristicaResponseDTO;
 import sisgerim.backend.domain.caracteristica.CaracteristicaService;
 
 @RestController
-@RequestMapping("caracteristica")
+@RequestMapping("/api/caracteristica")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CaracteristicaController {
     @Autowired
     CaracteristicaService service;
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
     public List<CaracteristicaResponseDTO> getCaracteristicas(){
         return service.getAll();
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
     public ResponseEntity<String> saveCaracteristica(@RequestBody @Valid CaracteristicaRequestDTO data){
         service.save(data);
         return new ResponseEntity<String>("Created", HttpStatus.CREATED);
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping
     public ResponseEntity<Caracteristica> updateCaracteristica(@RequestBody @Valid CaracteristicaRequestDTO data){
         Caracteristica caracteristica = service.update(data);
@@ -47,7 +44,6 @@ public class CaracteristicaController {
             return ResponseEntity.notFound().build();
         }
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCaracteristica(@PathVariable("id") UUID id){
         if (service.delete(id)) {

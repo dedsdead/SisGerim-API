@@ -20,7 +20,6 @@ public class TipoService {
         return;
     }
     public Tipo update(TipoRequestDTO data){
-        //TODO: TIRAR ESSA REPETIÇÃO DE CÓDIGO
         Optional<Tipo> optional = repository.findById(data.id());
         if (optional.isPresent()) {
             Tipo tipo = optional.get();
