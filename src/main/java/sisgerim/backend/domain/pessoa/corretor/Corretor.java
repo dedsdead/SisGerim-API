@@ -3,7 +3,6 @@ package sisgerim.backend.domain.pessoa.corretor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.Entity;
@@ -38,7 +37,7 @@ public class Corretor extends Pessoa {
     private List<Corretor> corretores = new ArrayList<Corretor>();
     
     public Corretor(CorretorRequestDTO data){
-        super(data.id(), data.idEndereco(), data.nome().toUpperCase(), data.email(), data.telefone(), data.cpf(), data.excluidoEm());
+        super(data.id(), data.endereco(), data.nome().toUpperCase(), data.email(), data.telefone(), data.cpf(), data.excluidoEm());
         if (data.usuario() != null) {
             this.usuario = data.usuario();
         }
@@ -53,12 +52,10 @@ public class Corretor extends Pessoa {
             this.redesSociais = data.redesSociais();
         }
     }
-
     public UUID getUsuarioId(){
         if(this.usuario != null){
             return this.usuario.getId();
         }
         return null;
     }
-    
 }
