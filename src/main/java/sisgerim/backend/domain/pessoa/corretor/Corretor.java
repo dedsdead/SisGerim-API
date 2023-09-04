@@ -30,10 +30,10 @@ public class Corretor extends Pessoa {
     private String creci;
     private String imobiliaria;
     private String senha;
-    @JsonProperty(access = Access.WRITE_ONLY)
     private List<String> redesSociais;
     @OneToMany
     @JoinColumn(name = "id_usuario", updatable = false)
+    @JsonProperty(access = Access.WRITE_ONLY)
     private List<Corretor> corretores = new ArrayList<Corretor>();
     
     public Corretor(CorretorRequestDTO data){
