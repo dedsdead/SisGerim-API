@@ -40,7 +40,7 @@ public abstract class Pessoa {
     private String cpf;
     @Column(name = "excluido_em", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime excluidoEm;
-    
+
     public UUID getEnderecoId(){
         if(this.endereco != null){
             return this.endereco.getId();
