@@ -21,12 +21,9 @@ public class CorretorService {
         }
         return corretores;
     }
-    //TODO: Mudar a responsabilidade de busca para o banco
-    //return repository.findAllByExcluidoEmNullAndIdUsuarioNotNull();
-    public List<CorretorResponseDTO> getParceirosActive(){
-        List<CorretorResponseDTO> parceiros = new ArrayList<CorretorResponseDTO>();
+    public List<CorretorResponseDTO> getAllParceirosActive(){
         List<CorretorResponseDTO> corretores = getAllActive();
-
+        List<CorretorResponseDTO> parceiros = new ArrayList<CorretorResponseDTO>();
         for(CorretorResponseDTO corretor : corretores){
             if (corretor.idUsuario() != null) {
                 parceiros.add(corretor);
@@ -35,12 +32,13 @@ public class CorretorService {
         return parceiros;
     }
     public CorretorResponseDTO getParceiroActiveByEmail(String email){
-        List<CorretorResponseDTO> parceiros = getParceirosActive();
-        Optional<CorretorResponseDTO> optionalParceiro = parceiros.stream().filter(parceiro -> parceiro.email().equals(email)).findFirst();
-        if (optionalParceiro.isPresent()){
-            return optionalParceiro.get();
-        }
-        return null;
+        List<CorretorResponseDTO> parceiros = getAllParceirosActive();
+        return parceiros
+            .stream()
+            .filter(parceiro -> (parceiro.email())
+            .equalsIgnoreCase(email))
+            .findFirst()
+            .orElse(null);
     }
     public void save(CorretorRequestDTO data){
         if (data.cpf() != null) {
@@ -100,5 +98,4 @@ public class CorretorService {
         }
         return false;
     }
-
 }
