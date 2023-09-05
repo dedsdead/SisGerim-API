@@ -33,20 +33,17 @@ public class ClienteController {
     public List<ClienteResponseDTO> getClientesAtivos(){
         return service.getAllActive();
     }
-    @GetMapping()
+    @GetMapping("/tipo")
     public List<ClienteResponseDTO> getClientesAtivosByTipo(@RequestBody @Valid Tipo tipo){
-        List<ClienteResponseDTO> clientesByTipo = service.getClientesByTipo(tipo);
-        return clientesByTipo;
+        return service.getClientesByTipo(tipo);
     }
-    @GetMapping()
+    @GetMapping("/caracteristica")
     public List<ClienteResponseDTO> getClientesAtivosByCaracteristica(@RequestBody @Valid Caracteristica caracteristica){
-        List<ClienteResponseDTO> clientesByCaracteristica = service.getClientesByCaracteristica(caracteristica);
-        return clientesByCaracteristica;
+        return service.getClientesByCaracteristica(caracteristica);
     }
     @GetMapping("/{bairro}")
     public List<ClienteResponseDTO> getClientesAtivosByBairro(@PathVariable("bairro") String bairro){
-        List<ClienteResponseDTO> clientesByBairro = service.getClientesByBairro(bairro);
-        return clientesByBairro;
+        return service.getClientesByBairro(bairro);
     }
     @PostMapping
     public ResponseEntity<String> saveCliente(@RequestBody @Valid ClienteRequestDTO data){

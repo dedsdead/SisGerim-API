@@ -2,10 +2,8 @@ package sisgerim.backend.domain.pessoa;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

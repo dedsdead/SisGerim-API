@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import sisgerim.backend.domain.caracteristica.Caracteristica;
 import sisgerim.backend.domain.tipo.Tipo;
 import sisgerim.backend.repositories.ClienteRepository;
@@ -35,15 +33,16 @@ public class ClienteService {
     }
     public List<ClienteResponseDTO> getClientesByCaracteristica(Caracteristica caracteristica){
         List<ClienteResponseDTO> clientes = new ArrayList<ClienteResponseDTO>();
-        for(Cliente cliente : repository.findAllByCaracteristica(caracteristica)){
+        for(Cliente cliente : repository.findAllByCaracteristicas(caracteristica)){
             ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(cliente);
             clientes.add(clienteResponseDTO);
         }
         return clientes;
     }
     public List<ClienteResponseDTO> getClientesByBairro(String bairro){
+        bairro = bairro.toUpperCase();
         List<ClienteResponseDTO> clientes = new ArrayList<ClienteResponseDTO>();
-        for(Cliente cliente : repository.findAllByBairro(bairro)){
+        for(Cliente cliente : repository.findAllByBairroLike(bairro)){
             ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(cliente);
             clientes.add(clienteResponseDTO);
         }
@@ -74,8 +73,8 @@ public class ClienteService {
             if (data.tipo() != null) {
                 cliente.setTipo(data.tipo());
             }
-            if (data.caracteristica() != null) {
-                cliente.setCaracteristica(data.caracteristica());
+            if (data.caracteristicas() != null) {
+                cliente.setCaracteristicas(data.caracteristicas());
             }
             if (data.bairro() != null) {
                 cliente.setBairro(data.bairro());

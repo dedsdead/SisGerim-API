@@ -14,7 +14,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import sisgerim.backend.domain.imovel.Imovel;
 import sisgerim.backend.domain.pessoa.Pessoa;
+import sisgerim.backend.domain.pessoa.cliente.Cliente;
 
 @Entity
 @Table
@@ -35,7 +37,14 @@ public class Corretor extends Pessoa {
     @JoinColumn(name = "id_usuario", updatable = false)
     @JsonProperty(access = Access.WRITE_ONLY)
     private List<Corretor> corretores = new ArrayList<Corretor>();
-    
+    @OneToMany
+    (mappedBy = "corretor")
+    @JsonProperty(access = Access.WRITE_ONLY)
+    private List<Cliente> clientes;
+    @OneToMany
+    (mappedBy = "corretor")
+    @JsonProperty(access = Access.WRITE_ONLY)
+    private List<Imovel> imoveis;
     public Corretor(CorretorRequestDTO data){
         super(data.id(), data.endereco(), data.nome().toUpperCase(), data.email(), data.telefone(), data.cpf(), data.excluidoEm());
         if (data.usuario() != null) {
