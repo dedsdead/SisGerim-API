@@ -2,7 +2,6 @@ package sisgerim.backend.controllers;
 
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import jakarta.validation.Valid;
 import sisgerim.backend.domain.caracteristica.Caracteristica;
 import sisgerim.backend.domain.pessoa.cliente.ClienteRequestDTO;
@@ -35,15 +33,15 @@ public class ClienteController {
     }
     @GetMapping("/tipo")
     public List<ClienteResponseDTO> getClientesAtivosByTipo(@RequestBody @Valid Tipo tipo){
-        return service.getClientesByTipo(tipo);
+        return service.getAllActiveAndByTipo(tipo);
     }
     @GetMapping("/caracteristica")
     public List<ClienteResponseDTO> getClientesAtivosByCaracteristica(@RequestBody @Valid Caracteristica caracteristica){
-        return service.getClientesByCaracteristica(caracteristica);
+        return service.getAllActiveAndByCaracteristica(caracteristica);
     }
     @GetMapping("/{bairro}")
     public List<ClienteResponseDTO> getClientesAtivosByBairro(@PathVariable("bairro") String bairro){
-        return service.getClientesByBairro(bairro);
+        return service.getAllActiveAndByBairro(bairro);
     }
     @PostMapping
     public ResponseEntity<String> saveCliente(@RequestBody @Valid ClienteRequestDTO data){

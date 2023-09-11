@@ -23,26 +23,26 @@ public class ClienteService {
         }
         return clientes;
     }
-    public List<ClienteResponseDTO> getClientesByTipo(Tipo tipo){
+    public List<ClienteResponseDTO> getAllActiveAndByTipo(Tipo tipo){
         List<ClienteResponseDTO> clientes = new ArrayList<ClienteResponseDTO>();
-        for(Cliente cliente : repository.findAllByTipo(tipo)){
+        for(Cliente cliente : repository.findAllByTipoAndExcluidoEmNull(tipo)){
             ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(cliente);
             clientes.add(clienteResponseDTO);
         }
         return clientes;
     }
-    public List<ClienteResponseDTO> getClientesByCaracteristica(Caracteristica caracteristica){
+    public List<ClienteResponseDTO> getAllActiveAndByCaracteristica(Caracteristica caracteristica){
         List<ClienteResponseDTO> clientes = new ArrayList<ClienteResponseDTO>();
-        for(Cliente cliente : repository.findAllByCaracteristicas(caracteristica)){
+        for(Cliente cliente : repository.findAllByCaracteristicasAndExcluidoEmNull(caracteristica)){
             ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(cliente);
             clientes.add(clienteResponseDTO);
         }
         return clientes;
     }
-    public List<ClienteResponseDTO> getClientesByBairro(String bairro){
+    public List<ClienteResponseDTO> getAllActiveAndByBairro(String bairro){
         bairro = bairro.toUpperCase();
         List<ClienteResponseDTO> clientes = new ArrayList<ClienteResponseDTO>();
-        for(Cliente cliente : repository.findAllByBairroLike(bairro)){
+        for(Cliente cliente : repository.findAllByBairroLikeAndExcluidoEmNull(bairro)){
             ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(cliente);
             clientes.add(clienteResponseDTO);
         }

@@ -21,24 +21,13 @@ public class CorretorService {
         }
         return corretores;
     }
-    public List<CorretorResponseDTO> getAllParceirosActive(){
-        List<CorretorResponseDTO> corretores = getAllActive();
-        List<CorretorResponseDTO> parceiros = new ArrayList<CorretorResponseDTO>();
-        for(CorretorResponseDTO corretor : corretores){
-            if (corretor.idUsuario() != null) {
-                parceiros.add(corretor);
-            }
-        }
-        return parceiros;
-    }
     public CorretorResponseDTO getParceiroActiveByEmail(String email){
-        List<CorretorResponseDTO> parceiros = getAllParceirosActive();
-        return parceiros
-            .stream()
-            .filter(parceiro -> (parceiro.email())
-            .equalsIgnoreCase(email))
-            .findFirst()
-            .orElse(null);
+        Optional<Corretor> optionalParceiro = repository.findByExcluidoEmNullAndUsuarioNotNullAndEmailLikeIgnoreCase(email);
+        if (optionalParceiro.isPresent()) {
+            CorretorResponseDTO parceiro = new CorretorResponseDTO(optionalParceiro.get());
+            return parceiro;
+        }
+        return null;
     }
     public void save(CorretorRequestDTO data){
         if (data.cpf() != null) {

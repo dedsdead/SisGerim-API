@@ -14,7 +14,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, UUID>{
     Optional<Cliente> findByEmail(String email);
     Optional<Cliente> findByCpf(String cpf);
     List<Cliente> findAllByExcluidoEmNull();
-    List<Cliente> findAllByTipo(Tipo tipo);
-    List<Cliente> findAllByCaracteristicas(Caracteristica caracteristica);
-    List<Cliente> findAllByBairroLike(String bairro);
+    List<Cliente> findAllByTipoAndExcluidoEmNull(Tipo tipo);
+    List<Cliente> findAllByCaracteristicasAndExcluidoEmNull(Caracteristica caracteristica);
+    List<Cliente> findAllByBairroLikeAndExcluidoEmNull(String bairro);
 }

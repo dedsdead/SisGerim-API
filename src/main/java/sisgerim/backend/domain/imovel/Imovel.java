@@ -12,7 +12,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -23,7 +22,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sisgerim.backend.domain.caracteristica.Caracteristica;
 import sisgerim.backend.domain.endereco.Endereco;
-import sisgerim.backend.domain.pessoa.Pessoa;
+import sisgerim.backend.domain.pessoa.cliente.Cliente;
 import sisgerim.backend.domain.pessoa.corretor.Corretor;
 import sisgerim.backend.domain.tipo.Tipo;
 
@@ -58,12 +57,13 @@ public class Imovel {
     @JsonProperty(access = Access.WRITE_ONLY)
     private List<Caracteristica> caracteristicas;
     @ManyToOne
-    @JoinColumns({
-        @JoinColumn(name = "id_proprietario", referencedColumnName = "id", updatable = false),
-        @JoinColumn(name = "id_parceiro", referencedColumnName = "id", updatable = false)
-    })
+    @JoinColumn(name = "id_parceiro", updatable = false)
     @JsonProperty(access = Access.WRITE_ONLY)
-    private Pessoa negociador;
+    private Corretor parceiro;
+    @ManyToOne
+    @JoinColumn(name = "id_proprietario", updatable = false)
+    @JsonProperty(access = Access.WRITE_ONLY)
+    private Cliente proprietario;
     private double metragem;
     private double valor;
     private LocalDate dataVenda;
@@ -78,7 +78,6 @@ public class Imovel {
         if(data.caracteristicas() != null && data.caracteristicas().size() > 0){
             this.caracteristicas = data.caracteristicas();
         }
-        this.negociador = data.negociador();
         this.metragem = data.metragem();
         this.valor = data.valor();
         if (data.dataVenda() != null) {

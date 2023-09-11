@@ -33,18 +33,15 @@ public class Corretor extends Pessoa {
     private String imobiliaria;
     private String senha;
     private List<String> redesSociais;
-    @OneToMany
-    @JoinColumn(name = "id_usuario", updatable = false)
+    @OneToMany(mappedBy = "usuario")
     @JsonProperty(access = Access.WRITE_ONLY)
     private List<Corretor> corretores = new ArrayList<Corretor>();
-    @OneToMany
-    (mappedBy = "corretor")
+    @OneToMany(mappedBy = "usuario")
     @JsonProperty(access = Access.WRITE_ONLY)
-    private List<Cliente> clientes;
-    @OneToMany
-    (mappedBy = "corretor")
+    private List<Cliente> clientes = new ArrayList<Cliente>();
+    @OneToMany(mappedBy = "usuario")
     @JsonProperty(access = Access.WRITE_ONLY)
-    private List<Imovel> imoveis;
+    private List<Imovel> imoveis = new ArrayList<Imovel>();
     public Corretor(CorretorRequestDTO data){
         super(data.id(), data.endereco(), data.nome().toUpperCase(), data.email(), data.telefone(), data.cpf(), data.excluidoEm());
         if (data.usuario() != null) {
