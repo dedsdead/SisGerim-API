@@ -78,6 +78,12 @@ public class Imovel {
         if(data.caracteristicas() != null && data.caracteristicas().size() > 0){
             this.caracteristicas = data.caracteristicas();
         }
+        if (data.parceiro() != null) {
+            this.parceiro = data.parceiro();
+        }
+        if(data.proprietario() != null){
+            this.proprietario = data.proprietario();
+        }
         this.metragem = data.metragem();
         this.valor = data.valor();
         if (data.dataVenda() != null) {
@@ -90,5 +96,17 @@ public class Imovel {
         if(data.excluidoEm() != null){
             this.excluidoEm = data.excluidoEm();
         }
+    }
+    public UUID getParceiroId(){
+        if(this.parceiro != null){
+            return this.parceiro.getId();
+        }
+        return null;
+    }
+    public UUID getProprietarioId(){
+        if(this.proprietario != null){
+            return this.proprietario.getId();
+        }
+        return null;
     }
 }
