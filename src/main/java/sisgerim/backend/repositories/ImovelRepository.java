@@ -16,7 +16,7 @@ public interface ImovelRepository extends JpaRepository<Imovel, UUID>{
     List<Imovel> findAllByExcluidoEmNullAndDataVendaNotNull();
     List<Imovel> findAllByTipoAndExcluidoEmNullAndDataVendaNull(Tipo tipo);
     List<Imovel> findAllByCaracteristicasAndExcluidoEmNullAndDataVendaNull(Caracteristica caracteristica);
-    List<Imovel> findAllByEnderecoId_BairroAndExcluidoEmNullAndDataVendaNull(String bairro);
+    List<Imovel> findAllByEnderecoId_BairroLikeIgnoreCaseAndExcluidoEmNullAndDataVendaNull(String bairro);
     List<Imovel> findAllByMetragemGreaterThanEqualAndExcluidoEmNullAndDataVendaNull(double metragem);
     List<Imovel> findAllByValorBetweenAndExcluidoEmNullAndDataVendaNotNull(double valorInicial, double valorFinal);
 }

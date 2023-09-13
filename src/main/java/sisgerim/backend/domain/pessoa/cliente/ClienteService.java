@@ -40,9 +40,8 @@ public class ClienteService {
         return clientes;
     }
     public List<ClienteResponseDTO> getAllActiveAndByBairro(String bairro){
-        bairro = bairro.toUpperCase();
         List<ClienteResponseDTO> clientes = new ArrayList<ClienteResponseDTO>();
-        for(Cliente cliente : repository.findAllByBairroLikeAndExcluidoEmNull(bairro)){
+        for(Cliente cliente : repository.findAllByBairroLikeIgnoreCaseAndExcluidoEmNull(bairro)){
             ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(cliente);
             clientes.add(clienteResponseDTO);
         }

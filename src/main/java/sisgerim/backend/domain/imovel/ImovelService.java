@@ -57,7 +57,7 @@ public class ImovelService {
     }
     public List<ImovelResponseDTO> getAllActiveAndNotSoldByBairro(String bairro){
         List<ImovelResponseDTO> imoveis = new ArrayList<ImovelResponseDTO>();
-        for(Imovel imovel : repository.findAllByEnderecoId_BairroAndExcluidoEmNullAndDataVendaNull(bairro)){
+        for(Imovel imovel : repository.findAllByEnderecoId_BairroLikeIgnoreCaseAndExcluidoEmNullAndDataVendaNull(bairro)){
             ImovelResponseDTO imovelResponseDTO = new ImovelResponseDTO(imovel);
             imoveis.add(imovelResponseDTO);
         }
