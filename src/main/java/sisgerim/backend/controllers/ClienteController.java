@@ -32,15 +32,15 @@ public class ClienteController {
         return service.getAllActive();
     }
     @GetMapping("/tipo")
-    public List<ClienteResponseDTO> getClientesAtivosByTipo(@RequestBody @Valid Tipo tipo){
+    public List<ClienteResponseDTO> getClientesAtivosPorTipo(@RequestBody @Valid Tipo tipo){
         return service.getAllActiveAndByTipo(tipo);
     }
     @GetMapping("/caracteristica")
-    public List<ClienteResponseDTO> getClientesAtivosByCaracteristica(@RequestBody @Valid Caracteristica caracteristica){
+    public List<ClienteResponseDTO> getClientesAtivosPorCaracteristica(@RequestBody @Valid Caracteristica caracteristica){
         return service.getAllActiveAndByCaracteristica(caracteristica);
     }
-    @GetMapping("/{bairro}")
-    public List<ClienteResponseDTO> getClientesAtivosByBairro(@PathVariable("bairro") String bairro){
+    @GetMapping("/bairro/{bairro}")
+    public List<ClienteResponseDTO> getClientesAtivosPorBairro(@PathVariable("bairro") String bairro){
         return service.getAllActiveAndByBairro(bairro);
     }
     @PostMapping

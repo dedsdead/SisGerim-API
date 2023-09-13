@@ -14,12 +14,21 @@ public class EnderecoService {
     public List<EnderecoResponseDTO> getAll(){
         return repository.findAll().stream().map(EnderecoResponseDTO::new).toList();
     }
+    public List<EnderecoResponseDTO> getAllByCep(String cep){
+        return repository.findAllByCepLike(cep);
+    }
+    public List<EnderecoResponseDTO> getAllByLocalidade(String localidade){
+        return repository.findAllByLocalidadeLike(localidade);
+    }
+    public List<EnderecoResponseDTO> getAllByBairro(String bairro){
+        return repository.findAllByBairroLike(bairro);
+    }
     public void save(EnderecoRequestDTO data){
         Endereco endereco = new Endereco(data);
         repository.save(endereco);
         return;
     }
-    public Endereco update(EnderecoRequestDTO data){
+    public EnderecoResponseDTO update(EnderecoRequestDTO data){
         Optional<Endereco> optionalEndereco = repository.findById(data.id());
         if(optionalEndereco.isPresent()){
             Endereco endereco = optionalEndereco.get();
@@ -35,7 +44,7 @@ public class EnderecoService {
                 endereco.setComplemento(data.complemento());
             }
             repository.save(endereco);
-            return endereco;
+            return new EnderecoResponseDTO(endereco);
         }
         return null;
     }

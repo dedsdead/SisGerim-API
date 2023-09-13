@@ -80,11 +80,7 @@ public class ClienteService {
                 cliente.setBairro(data.bairro());
             }
             cliente.setNome(data.nome().toUpperCase());
-            cliente.setEmail(data.email());
             cliente.setTelefone(data.telefone());
-            if (data.cpf() != null) {
-                cliente.setCpf(data.cpf());
-            }
             repository.save(cliente);
             return new ClienteResponseDTO(cliente);
         }

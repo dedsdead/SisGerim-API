@@ -33,8 +33,8 @@ public class CorretorController {
     // public List<CorretorResponseDTO> getCorretoresParceirosAtivos(){
     //     return service.getAllParceirosActive();
     // }
-    @GetMapping("/{email}")
-    public ResponseEntity<CorretorResponseDTO> getCorretorParceiroAtivoByEmail(@PathVariable("email") String email){
+    @GetMapping("/email/{email}")
+    public ResponseEntity<CorretorResponseDTO> getCorretorParceiroAtivoPorEmail(@PathVariable("email") String email){
         CorretorResponseDTO parceiro = service.getParceiroActiveByEmail(email);
         if(parceiro != null){
             return ResponseEntity.ok(parceiro);

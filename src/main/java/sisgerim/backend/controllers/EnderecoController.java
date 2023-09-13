@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
-import sisgerim.backend.domain.endereco.Endereco;
 import sisgerim.backend.domain.endereco.EnderecoRequestDTO;
 import sisgerim.backend.domain.endereco.EnderecoResponseDTO;
 import sisgerim.backend.domain.endereco.EnderecoService;
@@ -36,10 +35,10 @@ public class EnderecoController {
         return new ResponseEntity<String>("Created", HttpStatus.CREATED);
     }
     @PutMapping
-    public ResponseEntity<Endereco> updateEndereco(@RequestBody @Valid EnderecoRequestDTO data){
-        Endereco endereco = service.update(data);
-        if (endereco != null) {
-            return ResponseEntity.ok(endereco);
+    public ResponseEntity<EnderecoResponseDTO> updateEndereco(@RequestBody @Valid EnderecoRequestDTO data){
+        EnderecoResponseDTO enderecoResponseDTO = service.update(data);
+        if (enderecoResponseDTO != null) {
+            return ResponseEntity.ok(enderecoResponseDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
