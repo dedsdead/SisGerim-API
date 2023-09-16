@@ -1,14 +1,12 @@
 package sisgerim.backend.domain.pessoa.corretor;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,27 +23,41 @@ import sisgerim.backend.domain.pessoa.cliente.Cliente;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Corretor extends Pessoa {
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", updatable = false)
+    @ManyToMany
+    @JoinTable(
+        name = "corretor_associa_corretor",
+        joinColumns = @JoinColumn(name = "id_corretor", updatable = false),
+        inverseJoinColumns = @JoinColumn(name = "id_parceiro", updatable = false)
+    )
     @JsonProperty(access = Access.WRITE_ONLY)
-    private Corretor usuario;
+    private List<Corretor> parceiros; 
     private String creci;
     private String imobiliaria;
     private String senha;
     private List<String> redesSociais;
-    @OneToMany(mappedBy = "usuario")
+    @ManyToMany(mappedBy = "parceiros")
     @JsonProperty(access = Access.WRITE_ONLY)
-    private List<Corretor> corretores = new ArrayList<Corretor>();
-    @OneToMany(mappedBy = "usuario")
+    private List<Corretor> corretores;
+    @ManyToMany
+    @JoinTable(
+        name = "corretor_tem_cliente",
+        joinColumns = @JoinColumn(name = "id_corretor", updatable = false),
+        inverseJoinColumns = @JoinColumn(name = "id_cliente", updatable = false)
+    )
     @JsonProperty(access = Access.WRITE_ONLY)
-    private List<Cliente> clientes = new ArrayList<Cliente>();
-    @OneToMany(mappedBy = "usuario")
+    private List<Cliente> clientes;
+    @ManyToMany
+    @JoinTable(
+        name = "corretor_tem_imovel",
+        joinColumns = @JoinColumn(name = "id_corretor", updatable = false),
+        inverseJoinColumns = @JoinColumn(name = "id_imovel", updatable = false)
+    )
     @JsonProperty(access = Access.WRITE_ONLY)
-    private List<Imovel> imoveis = new ArrayList<Imovel>();
+    private List<Imovel> imoveis;
     public Corretor(CorretorRequestDTO data){
         super(data.id(), data.endereco(), data.nome().toUpperCase(), data.email(), data.telefone(), data.cpf(), data.excluidoEm());
-        if (data.usuario() != null) {
-            this.usuario = data.usuario();
+        if (data.parceiros() != null) {
+            this.parceiros = data.parceiros();
         }
         this.creci = data.creci().toUpperCase();
         if (data.imobiliaria() != null) {
@@ -57,11 +69,11 @@ public class Corretor extends Pessoa {
         if (data.redesSociais() != null && data.redesSociais().size() > 0) {
             this.redesSociais = data.redesSociais();
         }
-    }
-    public UUID getUsuarioId(){
-        if(this.usuario != null){
-            return this.usuario.getId();
+        if (data.clientes() != null && data.clientes().size() > 0) {
+            this.clientes = data.clientes();
         }
-        return null;
+        if (data.imoveis() != null && data.imoveis().size() > 0) {
+            this.imoveis = data.imoveis();
+        }
     }
 }

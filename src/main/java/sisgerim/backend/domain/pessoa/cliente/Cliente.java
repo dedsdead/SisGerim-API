@@ -1,7 +1,6 @@
 package sisgerim.backend.domain.pessoa.cliente;
 
 import java.util.List;
-import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.Entity;
@@ -26,10 +25,9 @@ import sisgerim.backend.domain.tipo.Tipo;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Cliente extends Pessoa {
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", updatable = false)
+    @ManyToMany(mappedBy = "clientes")
     @JsonProperty(access = Access.WRITE_ONLY)
-    private Corretor usuario;
+    private List<Corretor> corretores;
     @ManyToOne
     @JoinColumn(name = "id_tipo", updatable = false)
     @JsonProperty(access = Access.WRITE_ONLY)
@@ -45,7 +43,7 @@ public class Cliente extends Pessoa {
     private String bairro;
     public Cliente(ClienteRequestDTO data) {
         super(data.id(), data.endereco(), data.nome(), data.email(), data.telefone(), data.cpf(), data.excluidoEm());
-        this.usuario = data.usuario();
+        this.corretores = data.corretores();
         if (data.tipo() != null) {
             this.tipo = data.tipo();
         }
@@ -55,11 +53,5 @@ public class Cliente extends Pessoa {
         if (data.bairro() != null) {
             this.bairro = data.bairro().toUpperCase();
         }
-    }
-    public UUID getUsuarioId(){
-        if(this.usuario != null){
-            return this.usuario.getId();
-        }
-        return null;
     }
 }

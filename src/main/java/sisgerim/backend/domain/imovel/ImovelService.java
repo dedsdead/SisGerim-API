@@ -94,17 +94,13 @@ public class ImovelService {
         Optional<Imovel> optionalImovel = repository.findById(data.id());
         if (optionalImovel.isPresent()) {
             Imovel imovel = optionalImovel.get();
+            imovel.setCorretores(data.corretores());
             imovel.setEndereco(data.endereco());
             imovel.setTipo(data.tipo());
             if (data.caracteristicas() != null) {
                 imovel.setCaracteristicas(data.caracteristicas());
             }
-            if(data.parceiro() != null) {
-                imovel.setParceiro(data.parceiro());
-            }
-            if(data.proprietario() != null) {
-                imovel.setProprietario(data.proprietario());
-            }
+            imovel.setProprietario(data.proprietario());
             imovel.setMetragem(data.metragem());
             imovel.setValor(data.valor());
             if(data.dataVenda() != null) {

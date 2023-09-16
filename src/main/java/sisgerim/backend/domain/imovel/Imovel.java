@@ -17,6 +17,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,14 +33,14 @@ import sisgerim.backend.domain.tipo.Tipo;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Imovel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", updatable = false)
+    @ManyToMany(mappedBy = "imoveis")
     @JsonProperty(access = Access.WRITE_ONLY)
-    private Corretor usuario;
+    private List<Corretor> corretores;
     @ManyToOne
     @JoinColumn(name = "id_endereco", updatable = false)
     @JsonProperty(access = Access.WRITE_ONLY)
@@ -57,10 +58,6 @@ public class Imovel {
     @JsonProperty(access = Access.WRITE_ONLY)
     private List<Caracteristica> caracteristicas;
     @ManyToOne
-    @JoinColumn(name = "id_parceiro", updatable = false)
-    @JsonProperty(access = Access.WRITE_ONLY)
-    private Corretor parceiro;
-    @ManyToOne
     @JoinColumn(name = "id_proprietario", updatable = false)
     @JsonProperty(access = Access.WRITE_ONLY)
     private Cliente proprietario;
@@ -72,18 +69,13 @@ public class Imovel {
     @Column(name = "excluido_em", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime excluidoEm;
     public Imovel(ImovelRequestDTO data){
-        this.usuario = data.usuario();
+        this.corretores = data.corretores();
         this.endereco = data.endereco();
         this.tipo = data.tipo();
         if(data.caracteristicas() != null && data.caracteristicas().size() > 0){
             this.caracteristicas = data.caracteristicas();
         }
-        if (data.parceiro() != null) {
-            this.parceiro = data.parceiro();
-        }
-        if(data.proprietario() != null){
-            this.proprietario = data.proprietario();
-        }
+        this.proprietario = data.proprietario();
         this.metragem = data.metragem();
         this.valor = data.valor();
         if (data.dataVenda() != null) {
@@ -96,17 +88,5 @@ public class Imovel {
         if(data.excluidoEm() != null){
             this.excluidoEm = data.excluidoEm();
         }
-    }
-    public UUID getParceiroId(){
-        if(this.parceiro != null){
-            return this.parceiro.getId();
-        }
-        return null;
-    }
-    public UUID getProprietarioId(){
-        if(this.proprietario != null){
-            return this.proprietario.getId();
-        }
-        return null;
     }
 }

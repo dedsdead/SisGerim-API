@@ -22,7 +22,7 @@ public class CorretorService {
         return corretores;
     }
     public CorretorResponseDTO getParceiroActiveByEmail(String email){
-        Optional<Corretor> optionalParceiro = repository.findByExcluidoEmNullAndUsuarioNotNullAndEmailLikeIgnoreCase(email);
+        Optional<Corretor> optionalParceiro = repository.findByExcluidoEmNullAndEmailLikeIgnoreCase(email);
         if (optionalParceiro.isPresent()) {
             CorretorResponseDTO parceiro = new CorretorResponseDTO(optionalParceiro.get());
             return parceiro;
