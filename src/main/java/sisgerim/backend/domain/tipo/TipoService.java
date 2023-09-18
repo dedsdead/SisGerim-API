@@ -19,13 +19,13 @@ public class TipoService {
         repository.save(tipo);
         return;
     }
-    public Tipo update(TipoRequestDTO data){
+    public TipoResponseDTO update(TipoRequestDTO data){
         Optional<Tipo> optional = repository.findById(data.id());
         if (optional.isPresent()) {
             Tipo tipo = optional.get();
             tipo.setNome(data.nome().toUpperCase());
             repository.save(tipo);
-            return tipo;
+            return new TipoResponseDTO(tipo);
         }
         return null;
     }

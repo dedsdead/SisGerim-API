@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
-import sisgerim.backend.domain.tipo.Tipo;
 import sisgerim.backend.domain.tipo.TipoRequestDTO;
 import sisgerim.backend.domain.tipo.TipoResponseDTO;
 import sisgerim.backend.domain.tipo.TipoService;
@@ -36,10 +35,10 @@ public class TipoController {
         return new ResponseEntity<String>("Created", HttpStatus.CREATED);
     }
     @PutMapping
-    public ResponseEntity<Tipo> updateTipo(@RequestBody @Valid TipoRequestDTO data){
-        Tipo tipo = service.update(data);
-        if (tipo != null) {
-            return ResponseEntity.ok(tipo);
+    public ResponseEntity<TipoResponseDTO> updateTipo(@RequestBody @Valid TipoRequestDTO data){
+        TipoResponseDTO tipoResponseDTO = service.update(data);
+        if (tipoResponseDTO != null) {
+            return ResponseEntity.ok(tipoResponseDTO);
         } else {
             return ResponseEntity.notFound().build();
         }

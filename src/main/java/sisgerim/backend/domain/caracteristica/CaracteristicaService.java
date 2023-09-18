@@ -19,7 +19,7 @@ public class CaracteristicaService {
         repository.save(caracteristica);
         return;
     }
-    public Caracteristica update(CaracteristicaRequestDTO data){
+    public CaracteristicaResponseDTO update(CaracteristicaRequestDTO data){
         Optional<Caracteristica> optional = repository.findById(data.id());
         if (optional.isPresent()) {
             Caracteristica caracteristica = optional.get();
@@ -28,7 +28,7 @@ public class CaracteristicaService {
             }
             caracteristica.setDescricao(data.descricao().toUpperCase());
             repository.save(caracteristica);
-            return caracteristica; 
+            return new CaracteristicaResponseDTO(caracteristica); 
         }
         return null;
     }

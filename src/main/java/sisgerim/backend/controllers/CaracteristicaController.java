@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
-import sisgerim.backend.domain.caracteristica.Caracteristica;
 import sisgerim.backend.domain.caracteristica.CaracteristicaRequestDTO;
 import sisgerim.backend.domain.caracteristica.CaracteristicaResponseDTO;
 import sisgerim.backend.domain.caracteristica.CaracteristicaService;
@@ -36,10 +35,10 @@ public class CaracteristicaController {
         return new ResponseEntity<String>("Created", HttpStatus.CREATED);
     }
     @PutMapping
-    public ResponseEntity<Caracteristica> updateCaracteristica(@RequestBody @Valid CaracteristicaRequestDTO data){
-        Caracteristica caracteristica = service.update(data);
-        if (caracteristica != null) {
-            return ResponseEntity.ok(caracteristica);
+    public ResponseEntity<CaracteristicaResponseDTO> updateCaracteristica(@RequestBody @Valid CaracteristicaRequestDTO data){
+        CaracteristicaResponseDTO caracteristicaResponseDTO = service.update(data);
+        if (caracteristicaResponseDTO != null) {
+            return ResponseEntity.ok(caracteristicaResponseDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
