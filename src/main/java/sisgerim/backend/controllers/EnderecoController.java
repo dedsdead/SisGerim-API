@@ -29,10 +29,22 @@ public class EnderecoController {
     public List<EnderecoResponseDTO> getEnderecos(){
         return service.getAll();
     }
+    @GetMapping("/{cep}")
+    public List<EnderecoResponseDTO> getEnderecosPorCep(@PathVariable("cep") String cep){
+        return service.getAllByCep(cep);
+    }
+    @GetMapping("/{localidade}")
+    public List<EnderecoResponseDTO> getEnderecosPorLocalidade(@PathVariable("localidade") String localidade){
+        return service.getAllByLocalidade(localidade);
+    }
+    @GetMapping("/{bairro}")
+    public List<EnderecoResponseDTO> getEnderecosPorBairro(@PathVariable("bairro") String bairro){
+        return service.getAllByBairro(bairro);
+    }
     @PostMapping
     public ResponseEntity<String> saveEndereco(@RequestBody @Valid EnderecoRequestDTO data){
         service.save(data);
-        return new ResponseEntity<String>("Created", HttpStatus.CREATED);
+        return new ResponseEntity<String>("Created", HttpStatus.CREATED); 
     }
     @PutMapping
     public ResponseEntity<EnderecoResponseDTO> updateEndereco(@RequestBody @Valid EnderecoRequestDTO data){

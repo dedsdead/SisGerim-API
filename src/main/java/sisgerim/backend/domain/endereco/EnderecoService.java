@@ -1,5 +1,6 @@
 package sisgerim.backend.domain.endereco;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,13 +16,28 @@ public class EnderecoService {
         return repository.findAll().stream().map(EnderecoResponseDTO::new).toList();
     }
     public List<EnderecoResponseDTO> getAllByCep(String cep){
-        return repository.findAllByCepLike(cep);
+        List<EnderecoResponseDTO> enderecos = new ArrayList<EnderecoResponseDTO>();
+        for (Endereco endereco : repository.findAllByCepLikeIgnoreCase(cep)) {
+            EnderecoResponseDTO enderecoResponseDTO = new EnderecoResponseDTO(endereco);
+            enderecos.add(enderecoResponseDTO);
+        }
+        return enderecos;
     }
     public List<EnderecoResponseDTO> getAllByLocalidade(String localidade){
-        return repository.findAllByLocalidadeLike(localidade);
+        List<EnderecoResponseDTO> enderecos = new ArrayList<EnderecoResponseDTO>();
+        for (Endereco endereco : repository.findAllByLocalidadeLikeIgnoreCase(localidade)) {
+            EnderecoResponseDTO enderecoResponseDTO = new EnderecoResponseDTO(endereco);
+            enderecos.add(enderecoResponseDTO);
+        }
+        return enderecos;
     }
     public List<EnderecoResponseDTO> getAllByBairro(String bairro){
-        return repository.findAllByBairroLike(bairro);
+        List<EnderecoResponseDTO> enderecos = new ArrayList<EnderecoResponseDTO>();
+        for (Endereco endereco : repository.findAllByBairroLikeIgnoreCase(bairro)) {
+            EnderecoResponseDTO enderecoResponseDTO = new EnderecoResponseDTO(endereco);
+            enderecos.add(enderecoResponseDTO);
+        }
+        return enderecos;
     }
     public void save(EnderecoRequestDTO data){
         Endereco endereco = new Endereco(data);
