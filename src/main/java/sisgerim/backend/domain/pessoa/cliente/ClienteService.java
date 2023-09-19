@@ -81,7 +81,22 @@ public class ClienteService {
     public void addToCorretor(Cliente cliente, UUID corretorId){
         Corretor corretor = corretorService.findById(corretorId);
         corretor.getClientes().add(cliente);
-        CorretorRequestDTO corretorRequestDTO = new CorretorRequestDTO(corretor.getId(), corretor.getParceiros(), corretor.getEndereco(), corretor.getNome(), corretor.getEmail(), corretor.getTelefone(), corretor.getCpf(), corretor.getCreci(), corretor.getImobiliaria(), corretor.getSenha(), corretor.getRedesSociais(), corretor.getClientes(), corretor.getImoveis(), corretor.getExcluidoEm());
+        CorretorRequestDTO corretorRequestDTO = new CorretorRequestDTO(
+            corretor.getId(),
+            corretor.getParceiros(),
+            corretor.getEndereco(),
+            corretor.getNome(),
+            corretor.getEmail(),
+            corretor.getTelefone(),
+            corretor.getCpf(),
+            corretor.getCreci(),
+            corretor.getImobiliaria(),
+            corretor.getSenha(),
+            corretor.getRedesSociais(),
+            corretor.getClientes(),
+            corretor.getImoveis(),
+            corretor.getExcluidoEm()
+        );
         corretorService.update(corretorRequestDTO);
     }
     public ClienteResponseDTO update(ClienteRequestDTO data){

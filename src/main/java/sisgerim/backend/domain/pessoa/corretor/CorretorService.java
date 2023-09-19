@@ -32,14 +32,40 @@ public class CorretorService {
                 corretores.add(corretorResponseDTO);
             }
         return corretores;
+        } 
+        return null;
+    }
+    public Corretor getParceiroActiveByEmail(String email){
+        Optional<Corretor> optionalParceiro = repository.findByExcluidoEmNullAndEmailLikeIgnoreCase(email);
+        if (optionalParceiro.isPresent()) {
+            Corretor parceiro = optionalParceiro.get();
+            return parceiro;
         }
         return null;
     }
-    public CorretorResponseDTO getParceiroActiveByEmail(String email){
-        Optional<Corretor> optionalParceiro = repository.findByExcluidoEmNullAndEmailLikeIgnoreCase(email);
-        if (optionalParceiro.isPresent()) {
-            CorretorResponseDTO parceiro = new CorretorResponseDTO(optionalParceiro.get());
-            return parceiro;
+    public CorretorResponseDTO saveParceiroByEmail(UUID corretorId, String email){
+        Corretor corretor = findById(corretorId);
+        Corretor parceiro = getParceiroActiveByEmail(email);
+        if(corretor != null && parceiro != null) {
+            corretor.getCorretores().add(parceiro);
+            CorretorRequestDTO corretorRequestDTO = new CorretorRequestDTO(
+                corretor.getId(),
+                corretor.getParceiros(),
+                corretor.getEndereco(),
+                corretor.getNome(),
+                corretor.getEmail(),
+                corretor.getTelefone(),
+                corretor.getCpf(),
+                corretor.getCreci(),
+                corretor.getImobiliaria(),
+                corretor.getSenha(),
+                corretor.getRedesSociais(),
+                corretor.getClientes(),
+                corretor.getImoveis(),
+                corretor.getExcluidoEm()
+            );
+            update(corretorRequestDTO);
+            return new CorretorResponseDTO(parceiro);
         }
         return null;
     }

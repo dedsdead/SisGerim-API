@@ -28,16 +28,21 @@ public class CorretorController {
     CorretorService service;
     @GetMapping("/{id}")
     public List<CorretorResponseDTO> getCorretoresAtivos(@PathVariable("id") UUID corretorId){
-        return service.getAllParceirosActive(corretorId);
+        return service.getAllParceirosActive(corretorId); 
     }
-    @GetMapping("/email")
-    public ResponseEntity<CorretorResponseDTO> getCorretorParceiroAtivoPorEmail(@RequestBody @NotBlank String email){
-        CorretorResponseDTO parceiro = service.getParceiroActiveByEmail(email);
-        if(parceiro != null){
-            return ResponseEntity.ok(parceiro);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    // @GetMapping("/email")
+    // public ResponseEntity<CorretorResponseDTO> getCorretorParceiroAtivoPorEmail(@RequestBody @NotBlank String email){
+    //     CorretorResponseDTO parceiro = service.getParceiroActiveByEmail(email);
+    //     if(parceiro != null){
+    //         return ResponseEntity.ok(parceiro);
+    //     } else {
+    //         return ResponseEntity.notFound().build();
+    //     }
+    // }
+    @PostMapping("/parceiro/{id}")
+    public ResponseEntity<String> saveParceiro(@PathVariable("id") UUID corretorId, @RequestBody @NotBlank String email){
+        service.saveParceiroByEmail(corretorId, email);
+        return new ResponseEntity<String>("Created", HttpStatus.CREATED);
     }
     @PostMapping
     public ResponseEntity<String> saveCorretor(@RequestBody @Valid CorretorRequestDTO data){
