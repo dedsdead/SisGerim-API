@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import sisgerim.backend.domain.pessoa.corretor.CorretorRequestDTO;
 import sisgerim.backend.domain.pessoa.corretor.CorretorResponseDTO;
 import sisgerim.backend.domain.pessoa.corretor.CorretorService;
@@ -25,16 +26,12 @@ import sisgerim.backend.domain.pessoa.corretor.CorretorService;
 public class CorretorController {
     @Autowired
     CorretorService service;
-    @GetMapping
-    public List<CorretorResponseDTO> getCorretoresAtivos(){
-        return service.getAllActive();
+    @GetMapping("/{id}")
+    public List<CorretorResponseDTO> getCorretoresAtivos(@PathVariable("id") UUID corretorId){
+        return service.getAllParceirosActive(corretorId);
     }
-    // @GetMapping("/parceiros")
-    // public List<CorretorResponseDTO> getCorretoresParceirosAtivos(){
-    //     return service.getAllParceirosActive();
-    // }
-    @GetMapping("/email/{email}")
-    public ResponseEntity<CorretorResponseDTO> getCorretorParceiroAtivoPorEmail(@PathVariable("email") String email){
+    @GetMapping("/email")
+    public ResponseEntity<CorretorResponseDTO> getCorretorParceiroAtivoPorEmail(@RequestBody @NotBlank String email){
         CorretorResponseDTO parceiro = service.getParceiroActiveByEmail(email);
         if(parceiro != null){
             return ResponseEntity.ok(parceiro);

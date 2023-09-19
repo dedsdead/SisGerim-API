@@ -2,6 +2,7 @@ package sisgerim.backend.controllers;
 
 import java.util.List;
 import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
-import sisgerim.backend.domain.caracteristica.Caracteristica;
+import jakarta.validation.constraints.NotBlank;
+import sisgerim.backend.domain.caracteristica.CaracteristicaListRequest;
+import sisgerim.backend.domain.pessoa.cliente.Cliente;
 import sisgerim.backend.domain.pessoa.cliente.ClienteRequestDTO;
 import sisgerim.backend.domain.pessoa.cliente.ClienteResponseDTO;
 import sisgerim.backend.domain.pessoa.cliente.ClienteService;
@@ -27,25 +30,26 @@ import sisgerim.backend.domain.tipo.Tipo;
 public class ClienteController {
     @Autowired
     ClienteService service;
-    @GetMapping
-    public List<ClienteResponseDTO> getClientesAtivos(){
-        return service.getAllActive();
+    @GetMapping("/{id}")
+    public List<ClienteResponseDTO> getClientesAtivos(@PathVariable("id") UUID corretorId){
+        return service.getAllActiveAndByCorretorId(corretorId);
     }
-    @GetMapping("/tipo")
-    public List<ClienteResponseDTO> getClientesAtivosPorTipo(@RequestBody @Valid Tipo tipo){
-        return service.getAllActiveAndByTipo(tipo);
+    @GetMapping("/tipo/{id}")
+    public List<ClienteResponseDTO> getClientesAtivosPorTipo(@PathVariable("id") UUID corretorId, @RequestBody @Valid Tipo tipo){
+        return service.getAllActiveAndByCorretorIdAndByTipo(corretorId, tipo);
     }
-    @GetMapping("/caracteristica")
-    public List<ClienteResponseDTO> getClientesAtivosPorCaracteristica(@RequestBody @Valid Caracteristica caracteristica){
-        return service.getAllActiveAndByCaracteristica(caracteristica);
+    @GetMapping("/caracteristica/{id}")
+    public List<ClienteResponseDTO> getClientesAtivosPorCaracteristicas(@PathVariable("id") UUID corretorId, @RequestBody @Valid CaracteristicaListRequest caracteristicas){
+        return service.getAllActiveAndByCorretorIdAndByCaracteristicas(corretorId, caracteristicas);
     }
-    @GetMapping("/bairro/{bairro}")
-    public List<ClienteResponseDTO> getClientesAtivosPorBairro(@PathVariable("bairro") String bairro){
-        return service.getAllActiveAndByBairro(bairro);
+    @GetMapping("/bairro/{id}")
+    public List<ClienteResponseDTO> getClientesAtivosPorBairro(@PathVariable("id") UUID corretorId, @RequestBody @NotBlank String bairro){
+        return service.getAllActiveAndByCorretorIdAndByBairro(corretorId, bairro);
     }
     @PostMapping
     public ResponseEntity<String> saveCliente(@RequestBody @Valid ClienteRequestDTO data){
-        service.save(data);
+        Cliente cliente = service.save(data);
+        service.addToCorretor(cliente, data.corretor().getId());
         return new ResponseEntity<String>("Created", HttpStatus.CREATED);
     }
     @PutMapping

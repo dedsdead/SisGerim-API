@@ -13,13 +13,27 @@ import sisgerim.backend.repositories.CorretorRepository;
 public class CorretorService {
     @Autowired
     private CorretorRepository repository;
-    public List<CorretorResponseDTO> getAllActive(){
-        List<CorretorResponseDTO> corretores = new ArrayList<CorretorResponseDTO>();
-        for(Corretor corretor : repository.findAllByExcluidoEmNull()){
-            CorretorResponseDTO corretorResponseDTO = new CorretorResponseDTO(corretor);
-            corretores.add(corretorResponseDTO);
+    public Corretor findById(UUID id){
+        Optional<Corretor> optionalCorretor = repository.findById(id);
+        if(optionalCorretor.isPresent()){
+            Corretor corretor = optionalCorretor.get();
+            return corretor;
+        } else {
+            return null;
         }
+    }
+    public List<CorretorResponseDTO> getAllParceirosActive(UUID idCorretor){
+        Optional<Corretor> optionalCorretor = repository.findById(idCorretor);
+        if (optionalCorretor.isPresent()) {
+            Corretor corretorFound = optionalCorretor.get();
+            List<CorretorResponseDTO> corretores = new ArrayList<CorretorResponseDTO>();
+            for(Corretor corretor : repository.findAllByParceirosAndExcluidoEmNull(corretorFound)){
+                CorretorResponseDTO corretorResponseDTO = new CorretorResponseDTO(corretor);
+                corretores.add(corretorResponseDTO);
+            }
         return corretores;
+        }
+        return null;
     }
     public CorretorResponseDTO getParceiroActiveByEmail(String email){
         Optional<Corretor> optionalParceiro = repository.findByExcluidoEmNullAndEmailLikeIgnoreCase(email);
@@ -38,7 +52,7 @@ public class CorretorService {
         }
         Optional<Corretor> optionalEmail = repository.findByEmail(data.email());
         if (optionalEmail.isPresent()) {
-            throw new RuntimeException("Email já cadastrado");
+            throw new RuntimeException("E-mail já cadastrado");
         }
         Optional<Corretor> optionalCreci = repository.findByCreci(data.creci());
         if (optionalCreci.isPresent()) {
@@ -52,27 +66,23 @@ public class CorretorService {
         Optional<Corretor> optionalCorretor = repository.findById(data.id());
         if (optionalCorretor.isPresent()) {
             Corretor corretor = optionalCorretor.get();
+            if(data.parceiros() != null){
+                corretor.setParceiros(data.parceiros());
+            }
             if (data.endereco() != null) {
                 corretor.setEndereco(data.endereco());
             }
             corretor.setNome(data.nome().toUpperCase());
-            corretor.setEmail(data.email());
             corretor.setTelefone(data.telefone());
-            if (data.cpf() != null) {
-                corretor.setCpf(data.cpf());
-            }
-            corretor.setCreci(data.creci().toUpperCase()); 
             if (data.imobiliaria() != null) {
                 corretor.setImobiliaria(data.imobiliaria().toUpperCase());
-            }
-            if (data.senha() != null) {
-                corretor.setSenha(data.senha());
             }
             if (data.redesSociais() != null && data.redesSociais().size() > 0) {
                 corretor.setRedesSociais(data.redesSociais());
             }
+            corretor.setClientes(data.clientes());
+            corretor.setImoveis(data.imoveis());
             repository.save(corretor);
-
             return new CorretorResponseDTO(corretor);
         }
         return null;

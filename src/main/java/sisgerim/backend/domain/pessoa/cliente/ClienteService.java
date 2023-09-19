@@ -8,6 +8,10 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sisgerim.backend.domain.caracteristica.Caracteristica;
+import sisgerim.backend.domain.caracteristica.CaracteristicaListRequest;
+import sisgerim.backend.domain.pessoa.corretor.Corretor;
+import sisgerim.backend.domain.pessoa.corretor.CorretorRequestDTO;
+import sisgerim.backend.domain.pessoa.corretor.CorretorService;
 import sisgerim.backend.domain.tipo.Tipo;
 import sisgerim.backend.repositories.ClienteRepository;
 
@@ -15,6 +19,9 @@ import sisgerim.backend.repositories.ClienteRepository;
 public class ClienteService {
     @Autowired
     private ClienteRepository repository;
+    @Autowired
+    private CorretorService corretorService;
+
     public List<ClienteResponseDTO> getAllActive(){
         List<ClienteResponseDTO> clientes = new ArrayList<ClienteResponseDTO>();
         for (Cliente cliente : repository.findAllByExcluidoEmNull()){
@@ -23,44 +30,59 @@ public class ClienteService {
         }
         return clientes;
     }
-    public List<ClienteResponseDTO> getAllActiveAndByTipo(Tipo tipo){
+    public List<ClienteResponseDTO> getAllActiveAndByCorretorId(UUID corretorId){
         List<ClienteResponseDTO> clientes = new ArrayList<ClienteResponseDTO>();
-        for(Cliente cliente : repository.findAllByTipoAndExcluidoEmNull(tipo)){
+        for (Cliente cliente : repository.findAllByCorretores_IdAndExcluidoEmNull(corretorId)){
             ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(cliente);
             clientes.add(clienteResponseDTO);
         }
         return clientes;
     }
-    public List<ClienteResponseDTO> getAllActiveAndByCaracteristica(Caracteristica caracteristica){
+    public List<ClienteResponseDTO> getAllActiveAndByCorretorIdAndByTipo(UUID corretorId, Tipo tipo){
         List<ClienteResponseDTO> clientes = new ArrayList<ClienteResponseDTO>();
-        for(Cliente cliente : repository.findAllByCaracteristicasAndExcluidoEmNull(caracteristica)){
+        for(Cliente cliente : repository.findAllByCorretores_IdAndTipoAndExcluidoEmNull(corretorId, tipo)){
             ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(cliente);
             clientes.add(clienteResponseDTO);
         }
         return clientes;
     }
-    public List<ClienteResponseDTO> getAllActiveAndByBairro(String bairro){
+    public List<ClienteResponseDTO> getAllActiveAndByCorretorIdAndByCaracteristicas(UUID corretorId, CaracteristicaListRequest caracteristicas){
+        List<Caracteristica> caracteristicasList = caracteristicas.caracteristicas(); 
         List<ClienteResponseDTO> clientes = new ArrayList<ClienteResponseDTO>();
-        for(Cliente cliente : repository.findAllByBairroLikeIgnoreCaseAndExcluidoEmNull(bairro)){
+        for(Cliente cliente : repository.findAllByCorretores_IdAndCaracteristicasInAndExcluidoEmNull(corretorId, caracteristicasList)){
             ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(cliente);
             clientes.add(clienteResponseDTO);
         }
         return clientes;
     }
-    public void save(ClienteRequestDTO data){
-        if (data.cpf() != null) {
-            Optional<Cliente> optionalCpf = repository.findByCpf(data.cpf());
-            if (optionalCpf.isPresent()) {
-                throw new RuntimeException("CPF já cadastrado");
+    public List<ClienteResponseDTO> getAllActiveAndByCorretorIdAndByBairro(UUID corretorId, String bairro){
+        List<ClienteResponseDTO> clientes = new ArrayList<ClienteResponseDTO>();
+        for(Cliente cliente : repository.findAllByCorretores_IdAndBairroLikeIgnoreCaseAndExcluidoEmNull(corretorId, bairro)){
+            ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(cliente);
+            clientes.add(clienteResponseDTO);
+        }
+        return clientes;
+    }
+    // TODO: tá feio, refatorar
+    public Cliente save(ClienteRequestDTO data){
+        List<Cliente> clientes = repository.findAllByExcluidoEmNull();
+        if(data.cpf() != null && clientes.size() > 0){
+            Optional<Cliente> optionalCliente = clientes.stream().filter(cliente -> cliente.getCpf().equals(data.cpf()) || cliente.getEmail().equals(data.email())).findFirst();
+            if (optionalCliente.isPresent()) {
+                Cliente cliente = optionalCliente.get();
+                repository.save(cliente);
+                return cliente;
             }
-        }
-        Optional<Cliente> optionalEmail = repository.findByEmail(data.email());
-        if (optionalEmail.isPresent()) {
-            throw new RuntimeException("Email já cadastrado");
         }
         Cliente cliente = new Cliente(data);
         repository.save(cliente);
-        return;
+        return cliente;
+    }
+    public void addToCorretor(Cliente cliente, UUID corretorId){
+        Corretor corretor = corretorService.findById(corretorId);
+        corretor.getClientes().add(cliente);
+        CorretorRequestDTO corretorRequestDTO = new CorretorRequestDTO(corretor.getId(), corretor.getParceiros(), corretor.getEndereco(), corretor.getNome(), corretor.getEmail(), corretor.getTelefone(), corretor.getCpf(), corretor.getCreci(), corretor.getImobiliaria(), corretor.getSenha(), corretor.getRedesSociais(), corretor.getClientes(), corretor.getImoveis(), corretor.getExcluidoEm());
+        corretorService.update(corretorRequestDTO);
     }
     public ClienteResponseDTO update(ClienteRequestDTO data){
         Optional<Cliente> optionalCliente = repository.findById(data.id());

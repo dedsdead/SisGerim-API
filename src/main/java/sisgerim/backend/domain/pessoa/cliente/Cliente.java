@@ -1,5 +1,6 @@
 package sisgerim.backend.domain.pessoa.cliente;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -39,11 +40,10 @@ public class Cliente extends Pessoa {
         inverseJoinColumns = @JoinColumn(name = "id_caracteristica", updatable = false)
     )
     @JsonProperty(access = Access.WRITE_ONLY)
-    private List<Caracteristica> caracteristicas;
+    private List<Caracteristica> caracteristicas = new ArrayList<Caracteristica>();
     private String bairro;
     public Cliente(ClienteRequestDTO data) {
         super(data.id(), data.endereco(), data.nome(), data.email(), data.telefone(), data.cpf(), data.excluidoEm());
-        this.corretores = data.corretores();
         if (data.tipo() != null) {
             this.tipo = data.tipo();
         }
