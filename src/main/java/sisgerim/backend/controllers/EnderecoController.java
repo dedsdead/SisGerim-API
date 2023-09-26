@@ -43,17 +43,28 @@ public class EnderecoController {
     }
     @PostMapping
     public ResponseEntity<String> saveEndereco(@RequestBody @Valid EnderecoRequestDTO data){
-        service.save(data);
-        return new ResponseEntity<String>("Created", HttpStatus.CREATED); 
+        try {
+            service.save(data);
+            return new ResponseEntity<String>("Created", HttpStatus.CREATED); 
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
     @PutMapping
     public ResponseEntity<EnderecoResponseDTO> updateEndereco(@RequestBody @Valid EnderecoRequestDTO data){
-        EnderecoResponseDTO enderecoResponseDTO = service.update(data);
-        if (enderecoResponseDTO != null) {
-            return ResponseEntity.ok(enderecoResponseDTO);
-        } else {
-            return ResponseEntity.notFound().build();
+        try {
+            EnderecoResponseDTO enderecoResponseDTO = service.update(data);
+            if (enderecoResponseDTO != null) {
+                return ResponseEntity.ok(enderecoResponseDTO);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
         }
+        
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEndereco(@PathVariable("id") UUID id){

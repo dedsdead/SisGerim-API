@@ -68,12 +68,14 @@ public class ClienteService {
         List<Cliente> clientes = repository.findAllByExcluidoEmNull();
         if(data.cpf() != null && clientes.size() > 0){
             Optional<Cliente> optionalCliente = clientes.stream().filter(cliente -> cliente.getCpf().equals(data.cpf()) || cliente.getEmail().equals(data.email())).findFirst();
+            // codigo repetido
             if (optionalCliente.isPresent()) {
                 Cliente cliente = optionalCliente.get();
                 repository.save(cliente);
                 return cliente;
             }
         }
+        // codigo repetido
         Cliente cliente = new Cliente(data);
         repository.save(cliente);
         return cliente;

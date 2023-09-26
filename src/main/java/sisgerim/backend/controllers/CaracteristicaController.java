@@ -31,17 +31,27 @@ public class CaracteristicaController {
     }
     @PostMapping
     public ResponseEntity<String> saveCaracteristica(@RequestBody @Valid CaracteristicaRequestDTO data){
-        service.save(data);
-        return new ResponseEntity<String>("Created", HttpStatus.CREATED);
+        try {
+            service.save(data);
+            return new ResponseEntity<String>("Created", HttpStatus.CREATED);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
     @PutMapping
     public ResponseEntity<CaracteristicaResponseDTO> updateCaracteristica(@RequestBody @Valid CaracteristicaRequestDTO data){
-        CaracteristicaResponseDTO caracteristicaResponseDTO = service.update(data);
-        if (caracteristicaResponseDTO != null) {
-            return ResponseEntity.ok(caracteristicaResponseDTO);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        try {
+            CaracteristicaResponseDTO caracteristicaResponseDTO = service.update(data);
+            if (caracteristicaResponseDTO != null) {
+                return ResponseEntity.ok(caracteristicaResponseDTO);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }   
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCaracteristica(@PathVariable("id") UUID id){

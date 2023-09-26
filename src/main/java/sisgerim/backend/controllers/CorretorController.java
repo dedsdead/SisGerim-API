@@ -41,21 +41,40 @@ public class CorretorController {
     // }
     @PostMapping("/parceiro/{id}")
     public ResponseEntity<String> saveParceiro(@PathVariable("id") UUID corretorId, @RequestBody @NotBlank String email){
-        service.saveParceiroByEmail(corretorId, email);
-        return new ResponseEntity<String>("Created", HttpStatus.CREATED);
+        try {
+            CorretorResponseDTO corretorResponseDTO = service.saveParceiroByEmail(corretorId, email);
+            if(corretorResponseDTO != null){
+                return new ResponseEntity<String>("Created", HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<String>("Invalid ID", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
     @PostMapping
     public ResponseEntity<String> saveCorretor(@RequestBody @Valid CorretorRequestDTO data){
-        service.save(data);
-        return new ResponseEntity<String>("Created", HttpStatus.CREATED);
+        try {
+            service.save(data);
+            return new ResponseEntity<String>("Created", HttpStatus.CREATED);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
     @PutMapping
     public ResponseEntity<CorretorResponseDTO> updateCorretor(@RequestBody @Valid CorretorRequestDTO data){
-        CorretorResponseDTO corretor = service.update(data);
-        if (corretor != null) {
-            return ResponseEntity.ok(corretor);
-        } else {
-            return ResponseEntity.notFound().build();
+        try {
+            CorretorResponseDTO corretor = service.update(data);
+            if (corretor != null) {
+                return ResponseEntity.ok(corretor);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
         }
     }
     @DeleteMapping("/{id}")

@@ -36,29 +36,54 @@ public class ClienteController {
     }
     @GetMapping("/tipo/{id}")
     public List<ClienteResponseDTO> getClientesAtivosPorTipo(@PathVariable("id") UUID corretorId, @RequestBody @Valid Tipo tipo){
-        return service.getAllActiveAndByCorretorIdAndByTipo(corretorId, tipo);
+        try {
+            return service.getAllActiveAndByCorretorIdAndByTipo(corretorId, tipo);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
     @GetMapping("/caracteristica/{id}")
     public List<ClienteResponseDTO> getClientesAtivosPorCaracteristicas(@PathVariable("id") UUID corretorId, @RequestBody @Valid CaracteristicaListRequest caracteristicas){
-        return service.getAllActiveAndByCorretorIdAndByCaracteristicas(corretorId, caracteristicas);
+        try {
+            return service.getAllActiveAndByCorretorIdAndByCaracteristicas(corretorId, caracteristicas);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
     @GetMapping("/bairro/{id}")
     public List<ClienteResponseDTO> getClientesAtivosPorBairro(@PathVariable("id") UUID corretorId, @RequestBody @NotBlank String bairro){
-        return service.getAllActiveAndByCorretorIdAndByBairro(corretorId, bairro);
+        try {
+            return service.getAllActiveAndByCorretorIdAndByBairro(corretorId, bairro);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }  
     }
     @PostMapping
     public ResponseEntity<String> saveCliente(@RequestBody @Valid ClienteRequestDTO data){
-        Cliente cliente = service.save(data);
-        service.addToCorretor(cliente, data.corretor().getId());
-        return new ResponseEntity<String>("Created", HttpStatus.CREATED);
+        try {
+            Cliente cliente = service.save(data);
+            service.addToCorretor(cliente, data.corretor().getId());
+            return new ResponseEntity<String>("Created", HttpStatus.CREATED);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
     @PutMapping
     public ResponseEntity<ClienteResponseDTO> updateCliente(@RequestBody @Valid ClienteRequestDTO data){
-        ClienteResponseDTO clienteResponseDTO = service.update(data); 
-        if (clienteResponseDTO != null) {
-            return ResponseEntity.ok(clienteResponseDTO);
-        } else {
-            return ResponseEntity.notFound().build();
+        try {
+            ClienteResponseDTO clienteResponseDTO = service.update(data); 
+            if (clienteResponseDTO != null) {
+                return ResponseEntity.ok(clienteResponseDTO);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
         }
     }
     @DeleteMapping("/{id}")

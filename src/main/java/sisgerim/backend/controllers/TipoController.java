@@ -31,16 +31,26 @@ public class TipoController {
     }
     @PostMapping
     public ResponseEntity<String> saveTipo(@RequestBody @Valid TipoRequestDTO data){
-        service.save(data);
-        return new ResponseEntity<String>("Created", HttpStatus.CREATED);
+        try {
+            service.save(data);
+            return new ResponseEntity<String>("Created", HttpStatus.CREATED);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
     @PutMapping
     public ResponseEntity<TipoResponseDTO> updateTipo(@RequestBody @Valid TipoRequestDTO data){
-        TipoResponseDTO tipoResponseDTO = service.update(data);
-        if (tipoResponseDTO != null) {
-            return ResponseEntity.ok(tipoResponseDTO);
-        } else {
-            return ResponseEntity.notFound().build();
+        try {
+            TipoResponseDTO tipoResponseDTO = service.update(data);
+            if (tipoResponseDTO != null) {
+                return ResponseEntity.ok(tipoResponseDTO);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
         }
     }
     @DeleteMapping("/{id}")
