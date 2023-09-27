@@ -25,6 +25,7 @@ import sisgerim.backend.domain.tipo.TipoService;
 public class TipoController {
     @Autowired
     private TipoService service;
+    
     @GetMapping
     public List<TipoResponseDTO> getTipos(){
         return service.getAll();
@@ -55,9 +56,14 @@ public class TipoController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTipo(@PathVariable("id") UUID id){
-        if (service.delete(id)) {
-            return ResponseEntity.ok("Deleted");
+        try {
+            if (service.delete(id)) {
+                return ResponseEntity.ok("Deleted");
+            }
+            return new ResponseEntity<String>("Invalid ID", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
         }
-        return new ResponseEntity<String>("Invalid ID", HttpStatus.NOT_FOUND);
     }
 }

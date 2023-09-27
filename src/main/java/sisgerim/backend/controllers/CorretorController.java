@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import sisgerim.backend.domain.pessoa.corretor.CorretorRequestDTO;
 import sisgerim.backend.domain.pessoa.corretor.CorretorResponseDTO;
 import sisgerim.backend.domain.pessoa.corretor.CorretorService;
@@ -26,8 +26,9 @@ import sisgerim.backend.domain.pessoa.corretor.CorretorService;
 public class CorretorController {
     @Autowired
     CorretorService service;
+    
     @GetMapping("/{id}")
-    public List<CorretorResponseDTO> getCorretoresAtivos(@PathVariable("id") UUID corretorId){
+    public List<CorretorResponseDTO> getCorretoresParceirosAtivos(@PathVariable("id") UUID corretorId){
         return service.getAllParceirosActive(corretorId); 
     }
     // @GetMapping("/email")
@@ -40,13 +41,13 @@ public class CorretorController {
     //     }
     // }
     @PostMapping("/parceiro/{id}")
-    public ResponseEntity<String> saveParceiro(@PathVariable("id") UUID corretorId, @RequestBody @NotBlank String email){
+    public ResponseEntity<CorretorResponseDTO> saveParceiro(@PathVariable("id") UUID corretorId, @RequestParam String email){
         try {
             CorretorResponseDTO corretorResponseDTO = service.saveParceiroByEmail(corretorId, email);
             if(corretorResponseDTO != null){
-                return new ResponseEntity<String>("Created", HttpStatus.CREATED);
+                return ResponseEntity.ok(corretorResponseDTO);
             } else {
-                return new ResponseEntity<String>("Invalid ID", HttpStatus.NOT_FOUND);
+                return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
             // TODO: handle exception
@@ -79,10 +80,15 @@ public class CorretorController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCorretor(@PathVariable("id") UUID id){
-        if(service.delete(id)){
-            return ResponseEntity.ok("Deleted");
-        } else {
-            return new ResponseEntity<String>("Invalid ID", HttpStatus.NOT_FOUND);
+        try {
+            if(service.delete(id)){
+                return ResponseEntity.ok("Deleted");
+            } else {
+                return new ResponseEntity<String>("Invalid ID", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
         }
     }
 }

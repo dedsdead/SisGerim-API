@@ -25,6 +25,7 @@ import sisgerim.backend.domain.endereco.EnderecoService;
 public class EnderecoController {
     @Autowired
     EnderecoService service;
+    
     @GetMapping
     public List<EnderecoResponseDTO> getEnderecos(){
         return service.getAll();
@@ -68,10 +69,15 @@ public class EnderecoController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEndereco(@PathVariable("id") UUID id){
-        if(service.delete(id)){
-            return ResponseEntity.ok("Deleted");
-        } else {
-            return new ResponseEntity<String>("Invalid ID", HttpStatus.NOT_FOUND);
+        try {
+            if(service.delete(id)){
+                return ResponseEntity.ok("Deleted");
+            } else {
+                return new ResponseEntity<String>("Invalid ID", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
         }
     }
 }

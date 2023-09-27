@@ -2,7 +2,6 @@ package sisgerim.backend.controllers;
 
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import sisgerim.backend.domain.caracteristica.CaracteristicaListRequest;
 import sisgerim.backend.domain.pessoa.cliente.Cliente;
 import sisgerim.backend.domain.pessoa.cliente.ClienteRequestDTO;
@@ -30,6 +29,7 @@ import sisgerim.backend.domain.tipo.Tipo;
 public class ClienteController {
     @Autowired
     ClienteService service;
+    
     @GetMapping("/{id}")
     public List<ClienteResponseDTO> getClientesAtivos(@PathVariable("id") UUID corretorId){
         return service.getAllActiveAndByCorretorId(corretorId);
@@ -53,7 +53,7 @@ public class ClienteController {
         }
     }
     @GetMapping("/bairro/{id}")
-    public List<ClienteResponseDTO> getClientesAtivosPorBairro(@PathVariable("id") UUID corretorId, @RequestBody @NotBlank String bairro){
+    public List<ClienteResponseDTO> getClientesAtivosPorBairro(@PathVariable("id") UUID corretorId, @RequestParam String bairro){
         try {
             return service.getAllActiveAndByCorretorIdAndByBairro(corretorId, bairro);
         } catch (Exception e) {
@@ -61,11 +61,11 @@ public class ClienteController {
             return null;
         }  
     }
-    @PostMapping
-    public ResponseEntity<String> saveCliente(@RequestBody @Valid ClienteRequestDTO data){
+    @PostMapping("/{id}")
+    public ResponseEntity<String> saveCliente(@PathVariable("id") UUID corretorId, @RequestBody @Valid ClienteRequestDTO data){
         try {
             Cliente cliente = service.save(data);
-            service.addToCorretor(cliente, data.corretor().getId());
+            service.addToCorretor(cliente, corretorId);
             return new ResponseEntity<String>("Created", HttpStatus.CREATED);
         } catch (Exception e) {
             // TODO: handle exception
@@ -88,10 +88,15 @@ public class ClienteController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCliente(@PathVariable("id") UUID id){
-        if(service.delete(id)){
-            return ResponseEntity.ok("Deleted");
-        } else {
-            return new ResponseEntity<String>("Invalid ID", HttpStatus.NOT_FOUND);
+        try {
+            if(service.delete(id)){
+                return ResponseEntity.ok("Deleted");
+            } else {
+                return new ResponseEntity<String>("Invalid ID", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
         }
     }
 }

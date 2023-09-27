@@ -25,6 +25,7 @@ import sisgerim.backend.domain.caracteristica.CaracteristicaService;
 public class CaracteristicaController {
     @Autowired
     CaracteristicaService service;
+    
     @GetMapping
     public List<CaracteristicaResponseDTO> getCaracteristicas(){
         return service.getAll();
@@ -55,9 +56,14 @@ public class CaracteristicaController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCaracteristica(@PathVariable("id") UUID id){
-        if (service.delete(id)) {
-            return ResponseEntity.ok("Deleted");
+        try {
+            if (service.delete(id)) {
+                return ResponseEntity.ok("Deleted");
+            }
+            return new ResponseEntity<String>("Invalid ID", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
         }
-        return new ResponseEntity<String>("Invalid ID", HttpStatus.NOT_FOUND);
     }
 }
