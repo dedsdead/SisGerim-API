@@ -15,6 +15,6 @@ public interface ClienteRepository extends JpaRepository<Cliente, UUID>{
     List<Cliente> findAllByExcluidoEmNull();
     List<Cliente> findAllByCorretores_IdAndExcluidoEmNull(UUID corretorId);
     List<Cliente> findAllByCorretores_IdAndTipoAndExcluidoEmNull(UUID corretorId, Tipo tipo);
-    List<Cliente> findAllByCorretores_IdAndCaracteristicasInAndExcluidoEmNull(UUID id, List<Caracteristica> caracteristicas);
-    List<Cliente> findAllByCorretores_IdAndBairroLikeIgnoreCaseAndExcluidoEmNull(UUID id, String bairro);
+    List<Cliente> findAllByCorretores_IdAndCaracteristicasInAndExcluidoEmNull(UUID corretorId, List<Caracteristica> caracteristicas);
+    List<Cliente> findAllByCorretores_IdAndBairroLikeIgnoreCaseAndExcluidoEmNull(UUID corretorId, String bairro);
 }

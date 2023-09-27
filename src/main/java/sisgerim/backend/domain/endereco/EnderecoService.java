@@ -12,6 +12,7 @@ import sisgerim.backend.repositories.EnderecoRepository;
 public class EnderecoService {
     @Autowired
     public EnderecoRepository repository;
+    
     public List<EnderecoResponseDTO> getAll(){
         return repository.findAll().stream().map(EnderecoResponseDTO::new).toList();
     }

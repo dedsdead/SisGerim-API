@@ -11,6 +11,7 @@ import sisgerim.backend.repositories.CaracteristicaRepository;
 public class CaracteristicaService {
     @Autowired
     private CaracteristicaRepository repository;
+    
     public List<CaracteristicaResponseDTO> getAll(){
         return repository.findAll().stream().map(CaracteristicaResponseDTO::new).toList();
     }

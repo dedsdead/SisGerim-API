@@ -11,7 +11,7 @@ public interface CorretorRepository extends JpaRepository<Corretor, UUID>{
     Optional<Corretor> findByEmail(String email);
     Optional<Corretor> findByCpf(String cpf);
     Optional<Corretor> findByCreci(String creci);
+    Optional<Corretor> findByEmailLikeIgnoreCaseAndExcluidoEmNull(String email);
     List<Corretor> findAllByExcluidoEmNull();
     List<Corretor> findAllByParceirosAndExcluidoEmNull(Corretor corretor);
-    Optional<Corretor> findByExcluidoEmNullAndEmailLikeIgnoreCase(String email);
 }

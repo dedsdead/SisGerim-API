@@ -11,6 +11,7 @@ import sisgerim.backend.repositories.TipoRepository;
 public class TipoService {
     @Autowired
     private TipoRepository repository;
+    
     public List<TipoResponseDTO> getAll(){
         return repository.findAll().stream().map(TipoResponseDTO::new).toList();
     }
