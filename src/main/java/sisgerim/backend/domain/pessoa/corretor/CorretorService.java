@@ -13,6 +13,7 @@ import sisgerim.backend.repositories.CorretorRepository;
 public class CorretorService {
     @Autowired
     private CorretorRepository repository;
+    
     public Corretor findById(UUID id){
         Optional<Corretor> optionalCorretor = repository.findById(id);
         if(optionalCorretor.isPresent()){
@@ -26,28 +27,29 @@ public class CorretorService {
         Optional<Corretor> optionalCorretor = repository.findById(idCorretor);
         if (optionalCorretor.isPresent()) {
             Corretor corretorFound = optionalCorretor.get();
-            List<CorretorResponseDTO> corretores = new ArrayList<CorretorResponseDTO>();
-            for(Corretor corretor : repository.findAllByParceirosAndExcluidoEmNull(corretorFound)){
+            List<CorretorResponseDTO> parceiros = new ArrayList<CorretorResponseDTO>();
+            for(Corretor corretor : corretorFound.getParceiros()){
                 CorretorResponseDTO corretorResponseDTO = new CorretorResponseDTO(corretor);
-                corretores.add(corretorResponseDTO);
+                parceiros.add(corretorResponseDTO);
             }
-        return corretores;
+            return parceiros;
         } 
         return null;
     }
-    public Corretor getParceiroActiveByEmail(String email){
-        Optional<Corretor> optionalParceiro = repository.findByExcluidoEmNullAndEmailLikeIgnoreCase(email);
+    public Corretor getCorretorActiveByEmail(String email){
+        Optional<Corretor> optionalParceiro = repository.findByEmailLikeIgnoreCaseAndExcluidoEmNull(email);
         if (optionalParceiro.isPresent()) {
             Corretor parceiro = optionalParceiro.get();
+            System.out.println(parceiro);
             return parceiro;
         }
         return null;
     }
     public CorretorResponseDTO saveParceiroByEmail(UUID corretorId, String email){
         Corretor corretor = findById(corretorId);
-        Corretor parceiro = getParceiroActiveByEmail(email);
+        Corretor parceiro = getCorretorActiveByEmail(email);
         if(corretor != null && parceiro != null) {
-            corretor.getCorretores().add(parceiro);
+            corretor.getParceiros().add(parceiro);
             CorretorRequestDTO corretorRequestDTO = new CorretorRequestDTO(
                 corretor.getId(),
                 corretor.getParceiros(),
@@ -64,8 +66,7 @@ public class CorretorService {
                 corretor.getImoveis(),
                 corretor.getExcluidoEm()
             );
-            update(corretorRequestDTO);
-            return new CorretorResponseDTO(parceiro);
+            return update(corretorRequestDTO);
         }
         return null;
     }
