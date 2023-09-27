@@ -22,14 +22,6 @@ public class ClienteService {
     @Autowired
     private CorretorService corretorService;
 
-    public List<ClienteResponseDTO> getAllActive(){
-        List<ClienteResponseDTO> clientes = new ArrayList<ClienteResponseDTO>();
-        for (Cliente cliente : repository.findAllByExcluidoEmNull()){
-            ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(cliente);
-            clientes.add(clienteResponseDTO);
-        }
-        return clientes;
-    }
     public List<ClienteResponseDTO> getAllActiveAndByCorretorId(UUID corretorId){
         List<ClienteResponseDTO> clientes = new ArrayList<ClienteResponseDTO>();
         for (Cliente cliente : repository.findAllByCorretores_IdAndExcluidoEmNull(corretorId)){
@@ -47,7 +39,7 @@ public class ClienteService {
         return clientes;
     }
     public List<ClienteResponseDTO> getAllActiveAndByCorretorIdAndByCaracteristicas(UUID corretorId, CaracteristicaListRequest caracteristicas){
-        List<Caracteristica> caracteristicasList = caracteristicas.caracteristicas(); 
+        List<Caracteristica> caracteristicasList = caracteristicas.caracteristicas();
         List<ClienteResponseDTO> clientes = new ArrayList<ClienteResponseDTO>();
         for(Cliente cliente : repository.findAllByCorretores_IdAndCaracteristicasInAndExcluidoEmNull(corretorId, caracteristicasList)){
             ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO(cliente);
@@ -63,19 +55,16 @@ public class ClienteService {
         }
         return clientes;
     }
-    // TODO: tá feio, refatorar
     public Cliente save(ClienteRequestDTO data){
         List<Cliente> clientes = repository.findAllByExcluidoEmNull();
-        if(data.cpf() != null && clientes.size() > 0){
-            Optional<Cliente> optionalCliente = clientes.stream().filter(cliente -> cliente.getCpf().equals(data.cpf()) || cliente.getEmail().equals(data.email())).findFirst();
-            // codigo repetido
+        Optional<Cliente> optionalCliente;
+        if(clientes.size() > 0){
+            optionalCliente = clientes.stream().filter(cliente -> (data.cpf() != null && cliente.getCpf().equals(data.cpf())) || cliente.getEmail().equals(data.email())).findFirst();
             if (optionalCliente.isPresent()) {
                 Cliente cliente = optionalCliente.get();
-                repository.save(cliente);
                 return cliente;
             }
         }
-        // codigo repetido
         Cliente cliente = new Cliente(data);
         repository.save(cliente);
         return cliente;
