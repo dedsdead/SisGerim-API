@@ -9,8 +9,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import sisgerim.backend.domain.caracteristica.Caracteristica;
 import sisgerim.backend.domain.endereco.Endereco;
+import sisgerim.backend.domain.foto.Foto;
 import sisgerim.backend.domain.pessoa.cliente.Cliente;
-import sisgerim.backend.domain.pessoa.corretor.Corretor;
 import sisgerim.backend.domain.tipo.Tipo;
 
-public record ImovelRequestDTO(UUID id, @NotEmpty List<Corretor> corretores, @NotNull Endereco endereco, @NotNull Tipo tipo, List<Caracteristica> caracteristicas, @NotNull Cliente proprietario, @NotNull double metragem, @NotNull double valor, LocalDate dataVenda, @NotBlank String descricao, String matricula, OffsetDateTime excluidoEm) {}
+public record ImovelRequestDTO(UUID id, @NotNull Endereco endereco, @NotNull Tipo tipo, List<Caracteristica> caracteristicas, @NotNull Cliente proprietario, @NotNull double metragem, @NotNull double valor, LocalDate dataVenda, @NotBlank String descricao, String matricula, @NotEmpty List<Foto> fotos, OffsetDateTime excluidoEm) {}

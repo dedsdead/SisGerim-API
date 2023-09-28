@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
-import sisgerim.backend.domain.caracteristica.Caracteristica;
+import sisgerim.backend.domain.caracteristica.CaracteristicaListRequest;
+import sisgerim.backend.domain.imovel.Imovel;
 import sisgerim.backend.domain.imovel.ImovelRequestDTO;
 import sisgerim.backend.domain.imovel.ImovelResponseDTO;
 import sisgerim.backend.domain.imovel.ImovelService;
@@ -27,58 +29,116 @@ import sisgerim.backend.domain.tipo.Tipo;
 public class ImovelController {
     @Autowired
     ImovelService service;
-    @GetMapping
-    public List<ImovelResponseDTO> getImoveisAtivos(){
-        return service.getAllActive();
+
+    @GetMapping("{id}")
+    public List<ImovelResponseDTO> getImoveisAtivosPorCorretor(@PathVariable("id") UUID corretorId){
+        try {
+            return service.getAllActiveAndByCorretorId(corretorId);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
-    @GetMapping("/naovendido")
-    public List<ImovelResponseDTO> getImoveisAtivosNaoVendidos(){
-        return service.getAllActiveAndNotSold();
+    @GetMapping("/naovendido/{id}")
+    public List<ImovelResponseDTO> getImoveisAtivosNaoVendidosPorCorretor(@PathVariable("id") UUID corretorId){
+        try {
+            return service.getAllActiveAndNotSoldAndByCorretorId(corretorId);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
-    @GetMapping("/vendido")
-    public List<ImovelResponseDTO> getImoveisAtivosVendidos(){
-        return service.getAllActiveAndSold();
+    @GetMapping("/vendido/{id}")
+    public List<ImovelResponseDTO> getImoveisAtivosVendidosPorCorretor(@PathVariable("id") UUID corretorId){
+        try {
+            return service.getAllActiveAndSoldAndByCorretorId(corretorId);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
-    @GetMapping("/tipo")
-    public List<ImovelResponseDTO> getImoveisAtivosNaoVendidosPorTipo(@RequestBody @Valid Tipo tipo){
-        return service.getAllActiveAndNotSoldByTipo(tipo);
+    @GetMapping("/tipo/{id}")
+    public List<ImovelResponseDTO> getImoveisAtivosNaoVendidosPorCorretorEPorTipo(@PathVariable("id") UUID corretorId, @RequestBody @Valid Tipo tipo){
+        try {
+            return service.getAllActiveAndNotSoldByTipoAndByCorretorId(corretorId, tipo);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
-    @GetMapping("/caracteristica")
-    public List<ImovelResponseDTO> getImoveisAtivosNaoVendidosPorCaracteristica(@RequestBody @Valid Caracteristica caracteristica){
-        return service.getAllActiveAndNotSoldByCaracteristica(caracteristica);
+    @GetMapping("/caracteristica/{id}")
+    public List<ImovelResponseDTO> getImoveisAtivosNaoVendidosPorCorretorEPorCaracteristica(@PathVariable("id") UUID corretorId, @RequestBody @Valid CaracteristicaListRequest caracteristicas){
+        try {
+            return service.getAllActiveAndNotSoldByCaracteristicaAndByCorretorId(corretorId, caracteristicas);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
-    @GetMapping("/bairro/{bairro}")
-    public List<ImovelResponseDTO> getImoveisAtivosNaoVendidosPorBairro(@PathVariable("bairro") String bairro){
-        return service.getAllActiveAndNotSoldByBairro(bairro);
+    @GetMapping("/bairro/{id}")
+    public List<ImovelResponseDTO> getImoveisAtivosNaoVendidosPorCorretorEPorBairro(@PathVariable("id") UUID corretorId, @RequestParam("bairro") String bairro){
+        try {
+            return service.getAllActiveAndNotSoldByBairroAndByCorretorId(corretorId, bairro);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
-    @GetMapping("/metragem/{metragem}")
-    public List<ImovelResponseDTO> getImoveisAtivosNaoVendidosPorMetragemMaiorOuIgual(@PathVariable("metragem") double metragem){
-        return service.getAllActiveAndNotSoldByMetragemGreaterThanOrEqual(metragem);
+    @GetMapping("/metragem/{id}")
+    public List<ImovelResponseDTO> getImoveisAtivosNaoVendidosPorCorretorEPorMetragemMaiorOuIgual(@PathVariable("id") UUID corretorId, @RequestParam("metragem") double metragem){
+        try {
+            return service.getAllActiveAndNotSoldByMetragemGreaterThanOrEqualAndByCorretorId(corretorId, metragem);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
-    @GetMapping("/valor")
-    public List<ImovelResponseDTO> getImoveisAtivosNaoVendidosPorValorEntre(@RequestBody @Valid double valorInicial, double valorFinal){
-        return service.getAllActiveAndNotSoldByValueBetween(valorInicial, valorFinal);
+    @GetMapping("/valor/{id}")
+    public List<ImovelResponseDTO> getImoveisAtivosNaoVendidosPorCorretorEPorValorEntre(@PathVariable("id") UUID corretorId, @RequestParam("valorInicial") double valorInicial, @RequestParam("valorFinal") double valorFinal){
+        try {
+            return service.getAllActiveAndNotSoldByValueBetweenAndByCorretorId(corretorId, valorInicial, valorFinal);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
-    @PostMapping
-    public ResponseEntity<String> saveImovel(@RequestBody @Valid ImovelRequestDTO data){
-        service.save(data);
-        return new ResponseEntity<String>("Created", HttpStatus.CREATED);
+    @PostMapping("/{id}")
+    public ResponseEntity<String> saveImovel(@PathVariable("id") UUID corretorId, @RequestBody @Valid ImovelRequestDTO data){
+        try {
+            Imovel imovel = service.save(data);
+            service.addToCorretor(imovel, corretorId);
+            service.addToFotos(imovel, data.fotos());
+            return new ResponseEntity<String>("Created", HttpStatus.CREATED);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
     @PutMapping
     public ResponseEntity<ImovelResponseDTO> updateImovel(@RequestBody @Valid ImovelRequestDTO data){
-        ImovelResponseDTO imovelResponseDTO = service.update(data); 
-        if (imovelResponseDTO != null) {
-            return ResponseEntity.ok(imovelResponseDTO);
-        } else {
-            return ResponseEntity.notFound().build();
+        try {
+            ImovelResponseDTO imovelResponseDTO = service.update(data); 
+            if (imovelResponseDTO != null) {
+                return ResponseEntity.ok(imovelResponseDTO);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
         }
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteImovel(@PathVariable("id") UUID id){
-        if(service.delete(id)){
-            return ResponseEntity.ok("Deleted");
-        } else {
-            return new ResponseEntity<String>("Invalid ID", HttpStatus.NOT_FOUND);
+        try {
+            if(service.delete(id)){
+                return ResponseEntity.ok("Deleted");
+            } else {
+                return new ResponseEntity<String>("Invalid ID", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
         }
     }
 }

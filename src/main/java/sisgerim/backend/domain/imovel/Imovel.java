@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -23,6 +24,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sisgerim.backend.domain.caracteristica.Caracteristica;
 import sisgerim.backend.domain.endereco.Endereco;
+import sisgerim.backend.domain.foto.Foto;
 import sisgerim.backend.domain.pessoa.cliente.Cliente;
 import sisgerim.backend.domain.pessoa.corretor.Corretor;
 import sisgerim.backend.domain.tipo.Tipo;
@@ -66,10 +68,12 @@ public class Imovel {
     private LocalDate dataVenda;
     private String descricao;
     private String matricula;
+    @OneToMany(mappedBy = "imovel")
+    @JsonProperty(access = Access.WRITE_ONLY)
+    private List<Foto> fotos;
     @Column(name = "excluido_em", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime excluidoEm;
     public Imovel(ImovelRequestDTO data){
-        this.corretores = data.corretores();
         this.endereco = data.endereco();
         this.tipo = data.tipo();
         if(data.caracteristicas() != null && data.caracteristicas().size() > 0){
