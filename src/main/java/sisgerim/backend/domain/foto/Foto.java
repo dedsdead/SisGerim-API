@@ -29,13 +29,21 @@ public class Foto {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     @ManyToOne
-    @JoinColumn(name = "id_imovel", updatable = false)
+    @JoinColumn(name = "id_imovel")
     @JsonProperty(access = Access.WRITE_ONLY)
     private Imovel imovel;
     String caminho;
 
     public Foto(FotoRequestDTO data){
-        this.imovel = data.imovel();
+        if(data.imovel() != null){
+            this.imovel = data.imovel();
+        }
         this.caminho = data.caminho().toUpperCase();
+    }
+    public UUID getImovelId(){
+        if(this.imovel != null){
+            return imovel.getId();
+        }
+        return null;
     }
 }

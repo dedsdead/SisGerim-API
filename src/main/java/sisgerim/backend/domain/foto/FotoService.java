@@ -20,6 +20,14 @@ public class FotoService {
     public List<FotoResponseDTO> getAllByCaminho(String caminho){
         return repository.findByCaminhoLikeIgnoreCase(caminho).stream().map(FotoResponseDTO::new).toList();
     }
+    public Foto getFotoById(UUID fotoId){
+        Optional<Foto> optional = repository.findById(fotoId);
+        if(optional.isPresent()){
+            Foto foto = optional.get();
+            return foto;
+        }
+        return null;
+    }
     public void save(FotoRequestDTO data){
         Foto foto = new Foto(data);
         repository.save(foto);
