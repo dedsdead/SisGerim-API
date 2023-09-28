@@ -70,7 +70,7 @@ public class ClienteService {
         return cliente;
     }
     public void addToCorretor(Cliente cliente, UUID corretorId){
-        Corretor corretor = corretorService.findById(corretorId);
+        Corretor corretor = corretorService.getCorretorById(corretorId);
         corretor.getClientes().add(cliente);
         CorretorRequestDTO corretorRequestDTO = new CorretorRequestDTO(
             corretor.getId(),

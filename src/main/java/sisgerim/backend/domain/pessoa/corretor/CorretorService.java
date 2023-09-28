@@ -14,7 +14,7 @@ public class CorretorService {
     @Autowired
     private CorretorRepository repository;
     
-    public Corretor findById(UUID id){
+    public Corretor getCorretorById(UUID id){
         Optional<Corretor> optionalCorretor = repository.findById(id);
         if(optionalCorretor.isPresent()){
             Corretor corretor = optionalCorretor.get();
@@ -46,7 +46,7 @@ public class CorretorService {
         return null;
     }
     public CorretorResponseDTO saveParceiroByEmail(UUID corretorId, String email){
-        Corretor corretor = findById(corretorId);
+        Corretor corretor = getCorretorById(corretorId);
         Corretor parceiro = getCorretorActiveByEmail(email);
         if(corretor != null && parceiro != null) {
             corretor.getParceiros().add(parceiro);
