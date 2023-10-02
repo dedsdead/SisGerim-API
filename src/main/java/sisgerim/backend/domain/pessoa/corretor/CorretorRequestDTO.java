@@ -8,4 +8,19 @@ import sisgerim.backend.domain.endereco.Endereco;
 import sisgerim.backend.domain.imovel.Imovel;
 import sisgerim.backend.domain.pessoa.cliente.Cliente;
 
-public record CorretorRequestDTO(UUID id, List<Corretor> parceiros, Endereco endereco, @NotBlank String nome, @NotBlank String email, @NotBlank String telefone, String cpf, @NotBlank String creci, String imobiliaria, @NotBlank String senha, List<String> redesSociais, List<Cliente> clientes, List<Imovel> imoveis, OffsetDateTime excluidoEm) {}
+public record CorretorRequestDTO(
+    UUID id,
+    List<Corretor> parceiros,
+    Endereco endereco,
+    @NotBlank String nome,
+    @NotBlank String email,
+    @NotBlank String telefone,
+    String cpf,
+    @NotBlank String creci,
+    String imobiliaria,
+    @NotBlank String senha,
+    List<String> redesSociais,
+    List<Cliente> clientes,
+    List<Imovel> imoveis,
+    OffsetDateTime excluidoEm
+) {}

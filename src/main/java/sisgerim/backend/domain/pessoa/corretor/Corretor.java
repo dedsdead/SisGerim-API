@@ -54,6 +54,7 @@ public class Corretor extends Pessoa {
     )
     @JsonProperty(access = Access.WRITE_ONLY)
     private List<Imovel> imoveis;
+    
     public Corretor(CorretorRequestDTO data){
         super(data.id(), data.endereco(), data.nome().toUpperCase(), data.email(), data.telefone(), data.cpf(), data.excluidoEm());
         if (data.parceiros() != null) {
