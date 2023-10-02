@@ -28,7 +28,12 @@ public class TipoController {
     
     @GetMapping
     public List<TipoResponseDTO> getTipos(){
-        return service.getAll();
+        try {
+            return service.getAll();
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
     @PostMapping
     public ResponseEntity<String> saveTipo(@RequestBody @Valid TipoRequestDTO data){
