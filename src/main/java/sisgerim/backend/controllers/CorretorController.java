@@ -29,17 +29,13 @@ public class CorretorController {
     
     @GetMapping("/{id}")
     public List<CorretorResponseDTO> getCorretoresParceirosAtivos(@PathVariable("id") UUID corretorId){
-        return service.getAllParceirosActive(corretorId); 
+        try {
+            return service.getAllParceirosActive(corretorId);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        } 
     }
-    // @GetMapping("/email")
-    // public ResponseEntity<CorretorResponseDTO> getCorretorParceiroAtivoPorEmail(@RequestBody @NotBlank String email){
-    //     CorretorResponseDTO parceiro = service.getParceiroActiveByEmail(email);
-    //     if(parceiro != null){
-    //         return ResponseEntity.ok(parceiro);
-    //     } else {
-    //         return ResponseEntity.notFound().build();
-    //     }
-    // }
     @PostMapping("/parceiro/{id}")
     public ResponseEntity<CorretorResponseDTO> saveParceiro(@PathVariable("id") UUID corretorId, @RequestParam String email){
         try {
