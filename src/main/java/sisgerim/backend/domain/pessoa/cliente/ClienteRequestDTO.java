@@ -8,4 +8,15 @@ import sisgerim.backend.domain.caracteristica.Caracteristica;
 import sisgerim.backend.domain.endereco.Endereco;
 import sisgerim.backend.domain.tipo.Tipo;
 
-public record ClienteRequestDTO (UUID id, Endereco endereco, Tipo tipo, List<Caracteristica> caracteristicas, String bairro, @NotBlank String nome, @NotBlank String email, @NotBlank String telefone, String cpf, OffsetDateTime excluidoEm) {}
+public record ClienteRequestDTO(
+    UUID id,
+    Endereco endereco,
+    Tipo tipo,
+    List<Caracteristica> caracteristicas,
+    String bairro,
+    @NotBlank String nome,
+    @NotBlank String email,
+    @NotBlank String telefone,
+    String cpf,
+    OffsetDateTime excluidoEm
+) {}

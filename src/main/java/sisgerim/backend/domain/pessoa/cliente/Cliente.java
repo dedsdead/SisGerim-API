@@ -42,6 +42,7 @@ public class Cliente extends Pessoa {
     @JsonProperty(access = Access.WRITE_ONLY)
     private List<Caracteristica> caracteristicas = new ArrayList<Caracteristica>();
     private String bairro;
+    
     public Cliente(ClienteRequestDTO data) {
         super(data.id(), data.endereco(), data.nome(), data.email(), data.telefone(), data.cpf(), data.excluidoEm());
         if (data.tipo() != null) {
