@@ -37,6 +37,7 @@ public class Caracteristica {
     @ManyToMany(mappedBy = "caracteristicas")
     @JsonProperty(access = Access.WRITE_ONLY)
     private List<Imovel> imoveis;
+    
     public Caracteristica(CaracteristicaRequestDTO data) {
         this.quantidade = data.quantidade();
         this.descricao = data.descricao().toUpperCase();
