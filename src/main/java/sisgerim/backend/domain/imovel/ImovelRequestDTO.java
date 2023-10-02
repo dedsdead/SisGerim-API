@@ -13,4 +13,17 @@ import sisgerim.backend.domain.foto.Foto;
 import sisgerim.backend.domain.pessoa.cliente.Cliente;
 import sisgerim.backend.domain.tipo.Tipo;
 
-public record ImovelRequestDTO(UUID id, @NotNull Endereco endereco, @NotNull Tipo tipo, List<Caracteristica> caracteristicas, @NotNull Cliente proprietario, @NotNull double metragem, @NotNull double valor, LocalDate dataVenda, @NotBlank String descricao, String matricula, @NotEmpty List<Foto> fotos, OffsetDateTime excluidoEm) {}
+public record ImovelRequestDTO(
+    UUID id,
+    @NotNull Endereco endereco,
+    @NotNull Tipo tipo,
+    List<Caracteristica> caracteristicas,
+    @NotNull Cliente proprietario,
+    @NotNull double metragem,
+    @NotNull double valor,
+    LocalDate dataVenda,
+    @NotBlank String descricao,
+    String matricula,
+    @NotEmpty List<Foto> fotos,
+    OffsetDateTime excluidoEm
+) {}

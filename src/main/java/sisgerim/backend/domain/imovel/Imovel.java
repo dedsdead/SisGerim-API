@@ -73,6 +73,7 @@ public class Imovel {
     private List<Foto> fotos;
     @Column(name = "excluido_em", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime excluidoEm;
+    
     public Imovel(ImovelRequestDTO data){
         this.endereco = data.endereco();
         this.tipo = data.tipo();
