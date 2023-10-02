@@ -26,6 +26,15 @@ public class ImovelService {
     @Autowired
     private FotoService fotoService;
 
+    public Imovel getImovelById(UUID id){
+        Optional<Imovel> optionalImovel = repository.findById(id);
+        if(optionalImovel.isPresent()){
+            Imovel imovel = optionalImovel.get();
+            return imovel;
+        } else {
+            return null;
+        }
+    }
     public List<ImovelResponseDTO> getAllActiveAndByCorretorId(UUID corretorId){
         return repository.findAllByCorretores_IdAndExcluidoEmNull(corretorId).stream().map(ImovelResponseDTO::new).toList();
     }
@@ -65,6 +74,38 @@ public class ImovelService {
         repository.save(imovel);
         return imovel;
     }
+    public ImovelResponseDTO update(ImovelRequestDTO data){
+        Imovel imovel = getImovelById(data.id());
+        if(imovel != null){
+            imovel.setEndereco(data.endereco());
+            imovel.setTipo(data.tipo());
+            if (data.caracteristicas() != null) {
+                imovel.setCaracteristicas(data.caracteristicas());
+            }
+            imovel.setProprietario(data.proprietario());
+            imovel.setMetragem(data.metragem());
+            imovel.setValor(data.valor());
+            if(data.dataVenda() != null) {
+                imovel.setDataVenda(data.dataVenda());
+            }
+            imovel.setDescricao(data.descricao());
+            if(data.matricula() != null) {
+                imovel.setMatricula(data.matricula());
+            }
+            repository.save(imovel);
+            return new ImovelResponseDTO(imovel);
+        }
+        return null;
+    }
+    public boolean delete(UUID id){
+        Imovel imovel = getImovelById(id);
+        if(imovel != null){
+            imovel.setExcluidoEm(OffsetDateTime.now());
+            repository.save(imovel);
+            return true;
+        }
+        return false;
+    }
     public void addToCorretor(Imovel imovel, UUID corretorId){
         Corretor corretor = corretorService.getCorretorById(corretorId);
         corretor.getImoveis().add(imovel);
@@ -92,39 +133,5 @@ public class ImovelService {
             FotoRequestDTO fotoRequestDTO = new FotoRequestDTO(foto.getId(), foto.getImovel(), foto.getCaminho());
             fotoService.update(fotoRequestDTO);
         }
-    }
-    public ImovelResponseDTO update(ImovelRequestDTO data){
-        Optional<Imovel> optionalImovel = repository.findById(data.id());
-        if (optionalImovel.isPresent()) {
-            Imovel imovel = optionalImovel.get();
-            imovel.setEndereco(data.endereco());
-            imovel.setTipo(data.tipo());
-            if (data.caracteristicas() != null) {
-                imovel.setCaracteristicas(data.caracteristicas());
-            }
-            imovel.setProprietario(data.proprietario());
-            imovel.setMetragem(data.metragem());
-            imovel.setValor(data.valor());
-            if(data.dataVenda() != null) {
-                imovel.setDataVenda(data.dataVenda());
-            }
-            imovel.setDescricao(data.descricao());
-            if(data.matricula() != null) {
-                imovel.setMatricula(data.matricula());
-            }
-            repository.save(imovel);
-            return new ImovelResponseDTO(imovel);
-        }
-        return null;
-    }
-    public boolean delete(UUID id){
-        Optional<Imovel> optionalImovel = repository.findById(id);
-        if (optionalImovel.isPresent()) {
-            Imovel imovel = optionalImovel.get();
-            imovel.setExcluidoEm(OffsetDateTime.now());
-            repository.save(imovel);
-            return true;
-        }
-        return false;
     }
 }
