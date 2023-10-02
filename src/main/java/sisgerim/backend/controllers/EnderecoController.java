@@ -28,19 +28,39 @@ public class EnderecoController {
     
     @GetMapping
     public List<EnderecoResponseDTO> getEnderecos(){
-        return service.getAll();
+        try {
+            return service.getAll();
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
     @GetMapping("/{cep}")
     public List<EnderecoResponseDTO> getEnderecosPorCep(@PathVariable("cep") String cep){
-        return service.getAllByCep(cep);
+        try {
+            return service.getAllByCep(cep);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
     @GetMapping("/{localidade}")
     public List<EnderecoResponseDTO> getEnderecosPorLocalidade(@PathVariable("localidade") String localidade){
-        return service.getAllByLocalidade(localidade);
+        try {
+            return service.getAllByLocalidade(localidade);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
     @GetMapping("/{bairro}")
     public List<EnderecoResponseDTO> getEnderecosPorBairro(@PathVariable("bairro") String bairro){
-        return service.getAllByBairro(bairro);
+        try {
+            return service.getAllByBairro(bairro);
+        } catch (Exception e) {
+            // TODO: handle exception
+            return null;
+        }
     }
     @PostMapping
     public ResponseEntity<String> saveEndereco(@RequestBody @Valid EnderecoRequestDTO data){
