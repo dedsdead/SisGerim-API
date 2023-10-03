@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import sisgerim.backend.domain.foto.FotoRequestDTO;
 import sisgerim.backend.domain.foto.FotoResponseDTO;
-import sisgerim.backend.domain.foto.FotoService;
+import sisgerim.backend.services.FotoService;
 
 @RestController
 @RequestMapping("/api/foto")

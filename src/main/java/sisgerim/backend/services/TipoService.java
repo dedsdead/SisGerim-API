@@ -1,10 +1,13 @@
-package sisgerim.backend.domain.tipo;
+package sisgerim.backend.services;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sisgerim.backend.domain.tipo.Tipo;
+import sisgerim.backend.domain.tipo.TipoRequestDTO;
+import sisgerim.backend.domain.tipo.TipoResponseDTO;
 import sisgerim.backend.repositories.TipoRepository;
 
 @Service

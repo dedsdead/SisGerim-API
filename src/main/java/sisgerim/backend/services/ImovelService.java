@@ -1,4 +1,4 @@
-package sisgerim.backend.domain.imovel;
+package sisgerim.backend.services;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -10,10 +10,11 @@ import sisgerim.backend.domain.caracteristica.Caracteristica;
 import sisgerim.backend.domain.caracteristica.CaracteristicaListRequest;
 import sisgerim.backend.domain.foto.Foto;
 import sisgerim.backend.domain.foto.FotoRequestDTO;
-import sisgerim.backend.domain.foto.FotoService;
+import sisgerim.backend.domain.imovel.Imovel;
+import sisgerim.backend.domain.imovel.ImovelRequestDTO;
+import sisgerim.backend.domain.imovel.ImovelResponseDTO;
 import sisgerim.backend.domain.pessoa.corretor.Corretor;
 import sisgerim.backend.domain.pessoa.corretor.CorretorRequestDTO;
-import sisgerim.backend.domain.pessoa.corretor.CorretorService;
 import sisgerim.backend.domain.tipo.Tipo;
 import sisgerim.backend.repositories.ImovelRepository;
 

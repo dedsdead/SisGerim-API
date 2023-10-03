@@ -1,10 +1,14 @@
-package sisgerim.backend.domain.caracteristica;
+package sisgerim.backend.services;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import sisgerim.backend.domain.caracteristica.Caracteristica;
+import sisgerim.backend.domain.caracteristica.CaracteristicaRequestDTO;
+import sisgerim.backend.domain.caracteristica.CaracteristicaResponseDTO;
 import sisgerim.backend.repositories.CaracteristicaRepository;
 
 @Service

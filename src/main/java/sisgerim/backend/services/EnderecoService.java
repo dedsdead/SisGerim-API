@@ -1,4 +1,4 @@
-package sisgerim.backend.domain.endereco;
+package sisgerim.backend.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,9 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sisgerim.backend.domain.endereco.Endereco;
+import sisgerim.backend.domain.endereco.EnderecoRequestDTO;
+import sisgerim.backend.domain.endereco.EnderecoResponseDTO;
 import sisgerim.backend.repositories.EnderecoRepository;
 
 @Service

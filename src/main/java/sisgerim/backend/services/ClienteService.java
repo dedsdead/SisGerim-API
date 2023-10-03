@@ -1,4 +1,4 @@
-package sisgerim.backend.domain.pessoa.cliente;
+package sisgerim.backend.services;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sisgerim.backend.domain.caracteristica.Caracteristica;
 import sisgerim.backend.domain.caracteristica.CaracteristicaListRequest;
+import sisgerim.backend.domain.pessoa.cliente.Cliente;
+import sisgerim.backend.domain.pessoa.cliente.ClienteRequestDTO;
+import sisgerim.backend.domain.pessoa.cliente.ClienteResponseDTO;
 import sisgerim.backend.domain.pessoa.corretor.Corretor;
 import sisgerim.backend.domain.pessoa.corretor.CorretorRequestDTO;
-import sisgerim.backend.domain.pessoa.corretor.CorretorService;
 import sisgerim.backend.domain.tipo.Tipo;
 import sisgerim.backend.repositories.ClienteRepository;
 

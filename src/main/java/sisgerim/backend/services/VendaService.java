@@ -1,4 +1,4 @@
-package sisgerim.backend.domain.venda;
+package sisgerim.backend.services;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sisgerim.backend.domain.imovel.Imovel;
 import sisgerim.backend.domain.imovel.ImovelRequestDTO;
-import sisgerim.backend.domain.imovel.ImovelService;
+import sisgerim.backend.domain.venda.Venda;
+import sisgerim.backend.domain.venda.VendaRequestDTO;
+import sisgerim.backend.domain.venda.VendaResponseDTO;
 import sisgerim.backend.repositories.VendaRepository;
 
 @Service

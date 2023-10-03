@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import sisgerim.backend.domain.endereco.EnderecoRequestDTO;
 import sisgerim.backend.domain.endereco.EnderecoResponseDTO;
-import sisgerim.backend.domain.endereco.EnderecoService;
+import sisgerim.backend.services.EnderecoService;
 
 @RestController
 @RequestMapping("/api/endereco")

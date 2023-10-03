@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import sisgerim.backend.domain.pessoa.corretor.CorretorRequestDTO;
 import sisgerim.backend.domain.pessoa.corretor.CorretorResponseDTO;
-import sisgerim.backend.domain.pessoa.corretor.CorretorService;
+import sisgerim.backend.services.CorretorService;
 
 @RestController
 @RequestMapping("/api/corretor")

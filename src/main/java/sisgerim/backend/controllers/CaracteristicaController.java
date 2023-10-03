@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import sisgerim.backend.domain.caracteristica.CaracteristicaRequestDTO;
 import sisgerim.backend.domain.caracteristica.CaracteristicaResponseDTO;
-import sisgerim.backend.domain.caracteristica.CaracteristicaService;
+import sisgerim.backend.services.CaracteristicaService;
 
 @RestController
 @RequestMapping("/api/caracteristica")

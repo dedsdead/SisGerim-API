@@ -1,4 +1,4 @@
-package sisgerim.backend.domain.pessoa.corretor;
+package sisgerim.backend.services;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -7,6 +7,9 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sisgerim.backend.domain.pessoa.corretor.Corretor;
+import sisgerim.backend.domain.pessoa.corretor.CorretorRequestDTO;
+import sisgerim.backend.domain.pessoa.corretor.CorretorResponseDTO;
 import sisgerim.backend.repositories.CorretorRepository;
 
 @Service
@@ -77,8 +80,8 @@ public class CorretorService {
                 throw new RuntimeException("CPF já cadastrado");
             }
         }
-        Optional<Corretor> optionalEmail = repository.findByEmail(data.email());
-        if (optionalEmail.isPresent()) {
+        Corretor optionalEmail = (Corretor) repository.findByEmail(data.email());
+        if (optionalEmail != null) {
             throw new RuntimeException("E-mail já cadastrado");
         }
         Optional<Corretor> optionalCreci = repository.findByCreci(data.creci());

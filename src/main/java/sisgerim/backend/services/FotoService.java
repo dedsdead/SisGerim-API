@@ -1,10 +1,13 @@
-package sisgerim.backend.domain.foto;
+package sisgerim.backend.services;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sisgerim.backend.domain.foto.Foto;
+import sisgerim.backend.domain.foto.FotoRequestDTO;
+import sisgerim.backend.domain.foto.FotoResponseDTO;
 import sisgerim.backend.repositories.FotoRepository;
 
 @Service

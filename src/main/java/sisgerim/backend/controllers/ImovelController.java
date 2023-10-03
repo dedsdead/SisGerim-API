@@ -20,8 +20,8 @@ import sisgerim.backend.domain.caracteristica.CaracteristicaListRequest;
 import sisgerim.backend.domain.imovel.Imovel;
 import sisgerim.backend.domain.imovel.ImovelRequestDTO;
 import sisgerim.backend.domain.imovel.ImovelResponseDTO;
-import sisgerim.backend.domain.imovel.ImovelService;
 import sisgerim.backend.domain.tipo.Tipo;
+import sisgerim.backend.services.ImovelService;
 
 @RestController
 @RequestMapping("/api/imovel")

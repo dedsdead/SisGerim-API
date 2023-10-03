@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import sisgerim.backend.domain.tipo.TipoRequestDTO;
 import sisgerim.backend.domain.tipo.TipoResponseDTO;
-import sisgerim.backend.domain.tipo.TipoService;
+import sisgerim.backend.services.TipoService;
 
 @RestController
 @RequestMapping("/api/tipo")

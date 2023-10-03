@@ -20,8 +20,8 @@ import sisgerim.backend.domain.caracteristica.CaracteristicaListRequest;
 import sisgerim.backend.domain.pessoa.cliente.Cliente;
 import sisgerim.backend.domain.pessoa.cliente.ClienteRequestDTO;
 import sisgerim.backend.domain.pessoa.cliente.ClienteResponseDTO;
-import sisgerim.backend.domain.pessoa.cliente.ClienteService;
 import sisgerim.backend.domain.tipo.Tipo;
+import sisgerim.backend.services.ClienteService;
 
 @RestController
 @RequestMapping("/api/cliente")

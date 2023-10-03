@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import sisgerim.backend.domain.venda.VendaRequestDTO;
 import sisgerim.backend.domain.venda.VendaResponseDTO;
-import sisgerim.backend.domain.venda.VendaService;
+import sisgerim.backend.services.VendaService;
 
 @RestController
 @RequestMapping("/api/venda")
