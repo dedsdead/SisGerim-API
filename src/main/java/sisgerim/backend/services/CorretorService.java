@@ -43,7 +43,6 @@ public class CorretorService {
         Optional<Corretor> optionalParceiro = repository.findByEmailLikeIgnoreCaseAndExcluidoEmNull(email);
         if (optionalParceiro.isPresent()) {
             Corretor parceiro = optionalParceiro.get();
-            System.out.println(parceiro);
             return parceiro;
         }
         return null;

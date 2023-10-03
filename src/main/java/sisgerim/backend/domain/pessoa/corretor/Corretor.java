@@ -1,6 +1,10 @@
 package sisgerim.backend.domain.pessoa.corretor;
 
+import java.util.Collection;
 import java.util.List;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.Entity;
@@ -22,7 +26,7 @@ import sisgerim.backend.domain.pessoa.cliente.Cliente;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Corretor extends Pessoa {
+public class Corretor extends Pessoa implements UserDetails{
     @ManyToMany
     @JoinTable(
         name = "corretor_associa_corretor",
@@ -65,7 +69,7 @@ public class Corretor extends Pessoa {
             this.imobiliaria = data.imobiliaria().toUpperCase();    
         }
         if (data.senha() != null) {
-            this.senha = data.senha();
+            this.senha = new BCryptPasswordEncoder().encode(data.senha());
         }
         if (data.redesSociais() != null && data.redesSociais().size() > 0) {
             this.redesSociais = data.redesSociais();
@@ -76,5 +80,38 @@ public class Corretor extends Pessoa {
         if (data.imoveis() != null && data.imoveis().size() > 0) {
             this.imoveis = data.imoveis();
         }
+    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+    @Override
+    public String getUsername() {
+        return getEmail();
+    }
+    @Override
+    public boolean isAccountNonExpired() {
+        // TODO Implementation
+        return true;
+    }
+    @Override
+    public boolean isAccountNonLocked() {
+        // TODO Implementation
+        return true;
+    }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO Implementation 
+        return true;
+    }
+    @Override
+    public boolean isEnabled() {
+        if(getExcluidoEm() == null) {
+            return true;
+        } else return false;
     }
 }
