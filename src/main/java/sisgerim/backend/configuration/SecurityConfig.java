@@ -30,12 +30,14 @@ public class SecurityConfig {
                     authorize -> authorize
                     .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/corretor").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/v3/api-docs").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/v3/api-docs/swagger-config").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/swagger-ui/*").permitAll()
                     .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return null;
         }
@@ -45,7 +47,6 @@ public class SecurityConfig {
         try {
             return configuration.getAuthenticationManager();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return null;
         }
