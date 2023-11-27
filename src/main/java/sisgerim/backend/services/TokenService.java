@@ -2,6 +2,7 @@ package sisgerim.backend.services;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.auth0.jwt.JWT;
@@ -23,6 +24,7 @@ public class TokenService {
             String token = JWT.create()
                 .withIssuer("api-sisgerim")
                 .withSubject(corretor.getEmail())
+                .withClaim("corretorId", corretor.getId().toString())
                 .withExpiresAt(LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00")))
                 .sign(algorithm);
             return token;
