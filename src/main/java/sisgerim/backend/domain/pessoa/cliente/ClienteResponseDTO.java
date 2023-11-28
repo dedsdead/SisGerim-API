@@ -4,11 +4,12 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 import sisgerim.backend.domain.caracteristica.Caracteristica;
+import sisgerim.backend.domain.endereco.Endereco;
 import sisgerim.backend.domain.tipo.Tipo;
 
 public record ClienteResponseDTO(
     UUID id,
-    UUID idEndereco,
+    Endereco endereco,
     Tipo tipo,
     List<Caracteristica> caracteristicas,
     String bairro,
@@ -21,7 +22,7 @@ public record ClienteResponseDTO(
     public ClienteResponseDTO(Cliente cliente){
         this(
             cliente.getId(),
-            cliente.getEnderecoId(),
+            cliente.getEndereco(),
             cliente.getTipo(),
             cliente.getCaracteristicas(),
             cliente.getBairro(),
