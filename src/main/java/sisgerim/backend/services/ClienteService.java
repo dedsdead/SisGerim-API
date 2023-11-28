@@ -84,13 +84,13 @@ public class ClienteService {
             corretor.getCpf(),
             corretor.getCreci(),
             corretor.getImobiliaria(),
-            corretor.getSenha(),
+            null,
             corretor.getRedesSociais(),
             corretor.getClientes(),
             corretor.getImoveis(),
             corretor.getExcluidoEm()
         );
-        corretorService.update(corretorRequestDTO);
+        corretorService.save(corretorRequestDTO);
     }
     public ClienteResponseDTO update(ClienteRequestDTO data){
         Optional<Cliente> optionalCliente = repository.findById(data.id());
