@@ -18,7 +18,7 @@ public record CorretorRequestDTO(
     String cpf,
     @NotBlank String creci,
     String imobiliaria,
-    @NotBlank String senha,
+    String senha,
     List<String> redesSociais,
     List<Cliente> clientes,
     List<Imovel> imoveis,

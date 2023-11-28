@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import sisgerim.backend.domain.pessoa.corretor.Corretor;
 import sisgerim.backend.domain.pessoa.corretor.CorretorRequestDTO;
@@ -62,7 +63,7 @@ public class CorretorService {
                 corretor.getCpf(),
                 corretor.getCreci(),
                 corretor.getImobiliaria(),
-                corretor.getSenha(),
+                null,
                 corretor.getRedesSociais(),
                 corretor.getClientes(),
                 corretor.getImoveis(),
@@ -109,8 +110,13 @@ public class CorretorService {
             if (data.redesSociais() != null && data.redesSociais().size() > 0) {
                 corretor.setRedesSociais(data.redesSociais());
             }
-            corretor.setClientes(data.clientes());
-            corretor.setImoveis(data.imoveis());
+            corretor.setSenha(new BCryptPasswordEncoder().encode(data.senha()));
+            if(data.clientes() != null && data.clientes().size() > 0){
+                corretor.setClientes(data.clientes());
+            }
+            if(data.imoveis() != null && data.imoveis().size() > 0){
+                corretor.setImoveis(data.imoveis());
+            }
             repository.save(corretor);
             return new CorretorResponseDTO(corretor);
         }
